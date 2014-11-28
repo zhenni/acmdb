@@ -48,7 +48,7 @@ public class testdriver2 {
 	            		 continue;
 	            	 }
 	            	 
-	            	 if (c<1 | c>3)
+	            	 if (c<1 | c>4)
 	            		 continue;
 	            	 if (c==1)
 	            	 {
@@ -76,6 +76,15 @@ public class testdriver2 {
 	            		 }
 	            		 System.out.println(" ");
 	            		 rs.close();
+	            	 }
+	            	 else if (c==3){
+	            		 System.out.println("please enter your operation below:");
+	            		 while ((sql = in.readLine()) == null && sql.length() == 0)
+	            			 System.out.println(sql);
+	            		 int res =con.stmt.executeUpdate(sql);
+	            		 if (res != -1) {
+	            			 System.out.println("Update suscess"); 
+	            		 }
 	            	 }
 	            	 else
 	            	 {   

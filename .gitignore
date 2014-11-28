@@ -1,0 +1,17 @@
+#ignore
+
+*.class
+
+*~
+
+bin/*
+
+/bin
+
+.classpath
+
+.project
+
+acmdb/.classpath
+
+acmdb/.project
