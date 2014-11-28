@@ -15,7 +15,8 @@ public class testdriver2 {
 		 System.out.println("        Video Store Management System     ");
     	 System.out.println("1. search a course by cname and dname:");
     	 System.out.println("2. enter your onw query:");
-    	 System.out.println("3. exit:");
+    	 System.out.println("2. enter your update operation (such like create table):");
+    	 System.out.println("4. exit:");
     	 System.out.println("pleasse enter your choice:");
 	}
 	
