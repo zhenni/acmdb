@@ -25,4 +25,15 @@ public class Order{
 		}
 		return resultstr;
 	}
+	
+	public boolean exists(Statement stmt, String name) {
+		String sql;
+		sql = "SELECT COUNT(*) FROM " + name;
+		try {
+			stmt.executeQuery(sql);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
 }
