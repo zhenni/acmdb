@@ -5,7 +5,8 @@ import java.sql.*;
 
 public class Driver {
 	
-	public static final int CHOICE = 4;
+	public static final int CHOICE = 5;
+	public static final int FUNCTIONALITY = 15;
 	
 	public static final String[] tableNames= { "user","user_trust", "author", "publisher", "book", "writes", "orders", "opinion", "feedback"};
 	
@@ -169,6 +170,20 @@ public class Driver {
 				else if (c == 4){
 					clearTables();
 				}
+				else if (c == 5){
+					printFuncMenu();
+					String funcChoice;
+					while ((funcChoice = in.readLine()) == null && funcChoice.length() == 0);
+					int func;
+					try {
+						func = Integer.parseInt(funcChoice);
+					} catch (Exception e) {
+						continue;
+					}
+					if (func > FUNCTIONALITY) 
+						System.out.println("out of the range");
+					else handleFunctionality(func);
+				}
 				else {//c == 3
 					System.out.println("Welcome to the next visit :D");
 					con.stmt.close();
@@ -192,5 +207,35 @@ public class Driver {
 				}
 			}
 		}
+	}
+
+	private static final int REG = 1;
+	private static void handleFunctionality(int func) {
+		try {
+			
+			switch (func){
+				case REG:
+					
+					//TODO
+				default:
+					System.out.println("func " + func + " haven't finished yet");
+			}
+			
+		} catch (Exception e) {
+			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
+				System.out.println("You have an error in your SQL syntax");
+				e.printStackTrace();
+			} 
+			else {
+				e.printStackTrace();
+				System.err.println("Cannot connect to database server");
+			}
+		}
+	}
+
+	private static void printFuncMenu() {
+		System.out.println("1. registration:");
+
+		//TODO
 	}
 }
