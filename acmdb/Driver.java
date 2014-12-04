@@ -5,14 +5,15 @@ import java.sql.*;
 
 public class Driver {
 	
-	public static final int CHOICE = 2;
+	public static final int CHOICE = 3;
 	
 	public static void createTables(Connector con) {
 		Tables.setConfiguration(con.stmt);
 		
 		String sql = "CREATE TABLE user ( "
+					+"u_id CHAR(30) PRIMARY KEY,"
 					+"name CHAR(30), "
-					+"login_name CHAR(30) PRIMARY KEY, "
+					+"login_name CHAR(30) UNIQUE, "
 					+"password CHAR(30), "
 					+"address CHAR(100), "
 					+"phone_num CHAR(20) "
@@ -21,7 +22,7 @@ public class Driver {
 		sql = "CREATE TABLE user_trust ( "
 			+ "user1 CHAR(30), "
 			+ "user2 CHAR(30), "
-			+ "is_trust BOOLEAN, "
+			+ "is_trust TINYINT(1), "
 			+ "PRIMARY KEY (user1, user2), "
 			+ "FOREIGN KEY user1 REFERENCES user, "
 			+ "FOREIGN KEY user2 REFERENCES user "
@@ -99,11 +100,12 @@ public class Driver {
 	public static void displayMenu() {
 		System.out.println("        Bookstore Management System     ");
 		System.out.println("1. enter your own query:");
-		System.out.println("2. exit:");
+		System.out.println("2. enter your own update:");
+		System.out.println("3. exit:");
 		System.out.println("pleasse enter your choice:");
 	}
 	
-	public static void main() {
+	public static void main(String[] args) {
 		System.out.println("Welcome to our Bookstore");
 		Connector con = null;
 		String choice;
@@ -142,7 +144,17 @@ public class Driver {
 					}
 					System.out.println(" ");
 					rs.close();
-				} else {
+				}
+				else if (c==2){
+					System.out.println("please enter your operation below:");
+					while ((sql = in.readLine()) == null && sql.length() == 0)
+						System.out.println(sql);
+					int res =con.stmt.executeUpdate(sql);
+					if (res != -1) {
+						System.out.println("Update suscess"); 
+					}
+				}
+				else {
 					System.out.println("Welcome to the next visit :D");
 					con.stmt.close();
 					break;

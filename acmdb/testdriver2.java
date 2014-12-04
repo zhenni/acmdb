@@ -15,7 +15,8 @@ public class testdriver2 {
 		 System.out.println("        Video Store Management System     ");
     	 System.out.println("1. search a course by cname and dname:");
     	 System.out.println("2. enter your onw query:");
-    	 System.out.println("3. exit:");
+    	 System.out.println("3. enter your update operation (such like create table):");
+    	 System.out.println("4. exit:");
     	 System.out.println("pleasse enter your choice:");
 	}
 	
@@ -48,7 +49,7 @@ public class testdriver2 {
 	            		 continue;
 	            	 }
 	            	 
-	            	 if (c<1 | c>3)
+	            	 if (c<1 | c>4)
 	            		 continue;
 	            	 if (c==1)
 	            	 {
@@ -77,6 +78,15 @@ public class testdriver2 {
 	            		 System.out.println(" ");
 	            		 rs.close();
 	            	 }
+	            	 else if (c==3){
+	            		 System.out.println("please enter your operation below:");
+	            		 while ((sql = in.readLine()) == null && sql.length() == 0)
+	            			 System.out.println(sql);
+	            		 	 int res =con.stmt.executeUpdate(sql);
+	            		 	 if (res != -1) {
+	            		 		 System.out.println("Update suscess"); 
+	            		 	 }
+	            	 }	            	 
 	            	 else
 	            	 {   
 	            		 System.out.println("Remeber to pay us!");

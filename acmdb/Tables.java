@@ -18,7 +18,7 @@ public class Tables {
 		if (order.exists(stmt, name)) return;
 		
 		try {
-			stmt.executeQuery(sql);
+			stmt.executeUpdate(sql);
 		} catch (Exception e) {
 			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
 				System.out.println("You have an error in your SQL syntax");
