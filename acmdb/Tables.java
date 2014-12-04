@@ -22,6 +22,7 @@ public class Tables {
 		} catch (Exception e) {
 			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
 				System.out.println("You have an error in your SQL syntax");
+				System.out.println(sql);
 			} else {
 				e.printStackTrace();
 				System.err.println("Cannot connect to database server");

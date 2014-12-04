@@ -19,15 +19,29 @@ public class Driver {
 					+"phone_num CHAR(20) "
 					+");";
 		Tables.create("user", sql);
+		
 		sql = "CREATE TABLE user_trust ( "
 			+ "user1 CHAR(30), "
 			+ "user2 CHAR(30), "
 			+ "is_trust TINYINT(1), "
 			+ "PRIMARY KEY (user1, user2), "
-			+ "FOREIGN KEY user1 REFERENCES user, "
-			+ "FOREIGN KEY user2 REFERENCES user "
+			+ "FOREIGN KEY (user1) REFERENCES user, "
+			+ "FOREIGN KEY (user2) REFERENCES user "
 			+ ");";
 		Tables.create("user_trust", sql);
+		
+		sql = "CREATE TABLE author ( "
+				+ "author_id CHAR(30) PRIMARY KEY, "
+				+ "name CHAR(30) "
+				+ ");";
+		Tables.create("author", sql);
+		
+		sql = "CREATE TABLE publisher ( "
+				+ "publisher_id CHAR(30) PRIMARY KEY, "
+				+ "name CHAR(30) "
+				+ ");";
+		Tables.create("publisher", sql);
+		
 		sql = "CREATE TABLE book ( "
 			+ "isbn CHAR(30) PRIMARY KEY, "
 			+ "title CHAR(30), "
@@ -38,7 +52,7 @@ public class Driver {
 			+ "subject CHAR(100), "
 			+ "keywords CHAR(100), "
 			+ "publisher CHAR(30), "
-			+ "FOREIGN KEY publisher REFERENCES publisher "
+			+ "FOREIGN KEY (publisher) REFERENCES publisher, "
 			+ "CHECK( "
 			+ "EXIST (SELECT (*) "
 			+ "FROM write W "
@@ -46,33 +60,25 @@ public class Driver {
 			+ ") "
 			+ "); ";
 		Tables.create("book", sql);
-		sql = "CREATE TABLE author ( "
-			+ "author_id CHAR(30) PRIMARY KEY, "
-			+ "name CHAR(30) "
-			+ ");";
-		Tables.create("author", sql);
-		sql = "CREATE TABLE publisher ( "
-			+ "publisher_id CHAR(30) PRIMARY KEY, "
-			+ "name CHAR(30) "
-			+ ");";
-		Tables.create("publisher", sql);
+		
 		sql = "CREATE TABLE write ( "
 			+ "isbn CHAR(30), "
-			+ "author_id CHAR(30), "
-			+ "PRIMARY KEY (isbn, author_id) "
-			+ "FOREIGN KEY isbn REFERENCES book, "
-			+ "FOREIGN KEY author_id REFERENCES author "
+			+ "author_id CHAR(30),"
+			+ "PRIMARY KEY (isbn, author_id), "
+			+ "FOREIGN KEY (isbn) REFERENCES book, "
+			+ "FOREIGN KEY (author_id) REFERENCES author "
 			+ ");";
 		Tables.create("write", sql);
+		
 		sql = "CREATE TABLE order ( "
 			+ "date DATE, "
 			+ "time CHAR(30), "
 			+ "copy_num INTEGER, "
-			+ "login_name CHAR(30), "
+			+ "uid CHAR(30), "
 			+ "isbn CHAR(30), "
-			+ "PRIMARY KEY (date, time, login_name, isbn), "
-			+ "FOREIGN KEY login_name REFERENCES user, "
-			+ "FOREIGN KEY isbn REFERENCES book "
+			+ "PRIMARY KEY (date, time, uid, isbn), "
+			+ "FOREIGN KEY (uid) REFERENCES user, "
+			+ "FOREIGN KEY (isbn) REFERENCES book "
 			+ ");";
 		Tables.create("order", sql);
 		sql = "CREATE TABLE opinion ( "
@@ -80,19 +86,19 @@ public class Driver {
 			+ "date DATE, "
 			+ "short_text VARCHAR(200), "
 			+ "score INTEGER, "
-			+ "login_name CHAR(30), "
+			+ "uid CHAR(30), "
 			+ "isbn CHAR(30), "
-			+ "FOREIGN KEY login_name REFERENCES user, "
-			+ "FOREIGN KEY isbn REFERENCES book "
+			+ "FOREIGN KEY (uid) REFERENCES user, "
+			+ "FOREIGN KEY (isbn) REFERENCES book "
 			+ ");";
 		Tables.create("opinion", sql);
 		sql = "CREATE TABLE feedback ( "
 			+ "score INTEGER, "
-			+ "login_name CHAR(30), "
+			+ "uid CHAR(30), "
 			+ "op_id CHAR(20), "
-			+ "PRIMARY KEY (login_name, op_id), "
-			+ "FOREIGN KEY login_name REFERENCES user, "
-			+ "FOREIGN KEY op_id REFERENCES opinion "
+			+ "PRIMARY KEY (uid, op_id), "
+			+ "FOREIGN KEY (uid) REFERENCES user, "
+			+ "FOREIGN KEY (op_id) REFERENCES opinion "
 			+ ");";
 		Tables.create("feedback", sql);
 	}
