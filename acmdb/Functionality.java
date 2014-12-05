@@ -10,18 +10,22 @@ public class Functionality {
 	public static void setConfiguration(Statement _stmt) {
 		stmt = _stmt;
 	}
-	
+
+	public static final int REG = 1;
 	public static void handleFunc(int op) {
-		switch (op) {
-		case Driver.REG:
-			String sql = "";
-			ResultSet res;
-			try {
+		try {
+			switch (op) {
+			case REG:
+				String sql = "";
+				ResultSet res;
+			
 				res = stmt.executeQuery(sql);
-			} catch (Exception e) {
+				break;
+			default:
 				
 			}
-		default:
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

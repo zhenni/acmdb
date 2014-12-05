@@ -211,18 +211,11 @@ public class Driver {
 		}
 	}
 
-	public static final int REG = 1;
 	
-	private static void handleFunctionality(int func) {
+	private static void handleFunctionality(int op) {
 		try {
 			
-			switch (func){
-				case REG:
-					Functionality.handleFunc(REG);
-					//TODO
-				default:
-					System.out.println("func " + func + " haven't finished yet");
-			}
+			Functionality.handleFunc(op);
 			
 		} catch (Exception e) {
 			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
