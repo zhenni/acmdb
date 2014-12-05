@@ -44,7 +44,6 @@ public class Functionality {
 			
 			switch (op) {
 			case REG:
-				
 				String login_name, password, name, address, phone_num;
 				System.out.println("please enter a login_name:");
        		 	while ((login_name = in.readLine()) == null && login_name.length() == 0);
@@ -56,9 +55,11 @@ public class Functionality {
     		 	while ((address = in.readLine()) == null && address.length() == 0);
     		 	System.out.println("please enter a phone_num:");
     		 	while ((phone_num = in.readLine()) == null && phone_num.length() == 0);
-    		 	user.newUser(login_name, password, name, address, phone_num);
-				
-				break;
+    		 	
+    		 	int res = user.newUser(login_name, password, name, address, phone_num);
+				if (res != -1) System.out.println("success to registration");
+    		 	
+    		 	break;
 			default:
 				
 			}
@@ -66,7 +67,8 @@ public class Functionality {
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("ERROR: " + e.getMessage());
 		}
 	}
 }

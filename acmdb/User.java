@@ -10,7 +10,8 @@ public class User {
 		stmt = _stmt;
 	}
 	
-	public void newUser(String login_name, String password, String name, String address, String phone_num) throws SQLException{
+	/**regislate a new user*/
+	public int newUser(String login_name, String password, String name, String address, String phone_num) throws SQLException{
 		String sql = "INSERT INTO user(login_name, password, name, address, phone_num) VALUES (\'"
 				+ login_name + "\', \'"
 				+ password + "\', \'"
@@ -18,6 +19,7 @@ public class User {
 				+ address + "\', \'"
 				+ phone_num + "\')"
 				;
-		stmt.executeUpdate(sql);
+		int res = stmt.executeUpdate(sql);
+		return res;
 	}
 }
