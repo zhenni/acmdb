@@ -6,7 +6,7 @@ import java.sql.*;
 public class Driver {
 	
 	public static final int CHOICE = 5;
-	public static final int FUNCTIONALITY = 15;
+	public static final int FUNCTIONALITY = 13;
 	
 	public static final String[] tableNames= { "user","user_trust", "author", "publisher", "book", "writes", "orders", "opinion", "feedback"};
 	
@@ -173,7 +173,7 @@ public class Driver {
 					clearTables();
 				}
 				else if (c == 5){
-					printFuncMenu();
+					Functionality.printFuncMenu();
 					String funcChoice;
 					while ((funcChoice = in.readLine()) == null && funcChoice.length() == 0);
 					int func;
@@ -229,9 +229,5 @@ public class Driver {
 		}
 	}
 
-	private static void printFuncMenu() {
-		System.out.println("1. registration:");
-
-		//TODO
-	}
+	
 }
