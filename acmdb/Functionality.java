@@ -13,8 +13,8 @@ public class Functionality {
 	
 	public static User user;
 	
-	public static void init() {
-		user = new User();
+	public static void init() throws SQLException {
+		user = new User(stmt);
 		//TODO
 	}
 
@@ -56,7 +56,7 @@ public class Functionality {
     		 	while ((address = in.readLine()) == null && address.length() == 0);
     		 	System.out.println("please enter a phone_num:");
     		 	while ((phone_num = in.readLine()) == null && phone_num.length() == 0);
-    		 	user.newUser(login_name, password, name, address, phone_num, stmt);
+    		 	user.newUser(login_name, password, name, address, phone_num);
 				
 				break;
 			default:

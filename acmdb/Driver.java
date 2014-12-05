@@ -14,7 +14,7 @@ public class Driver {
 		Tables.setConfiguration(con.stmt);
 		
 		String sql = "CREATE TABLE IF NOT EXISTS user ( "
-					+"u_id CHAR(30) PRIMARY KEY,"
+					+"u_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,"
 					+"name CHAR(30), "
 					+"login_name CHAR(30) UNIQUE, "
 					+"password CHAR(30), "
