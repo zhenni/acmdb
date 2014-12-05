@@ -130,6 +130,7 @@ public class Driver {
 			System.out.println("Database connection established");
 
 			createTables(con);
+			Functionality.setConfiguration(con.stmt);
 			
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			
@@ -210,12 +211,14 @@ public class Driver {
 		}
 	}
 
-	private static final int REG = 1;
+	public static final int REG = 1;
+	
 	private static void handleFunctionality(int func) {
 		try {
 			
 			switch (func){
 				case REG:
+					Functionality.handleFunc(REG);
 					//TODO
 				default:
 					System.out.println("func " + func + " haven't finished yet");
