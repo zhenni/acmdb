@@ -131,6 +131,7 @@ public class Driver {
 
 			createTables(con);
 			Functionality.setConfiguration(con.stmt);
+			Functionality.init();
 			
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			

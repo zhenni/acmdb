@@ -10,6 +10,13 @@ public class Functionality {
 	public static void setConfiguration(Statement _stmt) {
 		stmt = _stmt;
 	}
+	
+	public static User user;
+	
+	public static void init() {
+		user = new User();
+		//TODO
+	}
 
 	public static void printFuncMenu() {
 		
@@ -49,7 +56,6 @@ public class Functionality {
     		 	while ((address = in.readLine()) == null && address.length() == 0);
     		 	System.out.println("please enter a phone_num:");
     		 	while ((phone_num = in.readLine()) == null && phone_num.length() == 0);
-    		 	User user=new User();
     		 	user.newUser(login_name, password, name, address, phone_num, stmt);
 				
 				break;
