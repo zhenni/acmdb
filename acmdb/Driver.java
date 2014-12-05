@@ -21,7 +21,7 @@ public class Driver {
 					+"address CHAR(100), "
 					+"phone_num CHAR(20) "
 					+");";
-		Tables.create("user", sql);
+		Tables.create(tableNames[0], sql);
 		
 		sql = "CREATE TABLE IF NOT EXISTS user_trust ( "
 			+ "u_id1 CHAR(30), "
@@ -31,19 +31,19 @@ public class Driver {
 			+ "FOREIGN KEY (u_id1) REFERENCES user(u_id), "
 			+ "FOREIGN KEY (u_id2) REFERENCES user(u_id)"
 			+ ");";
-		Tables.create("user_trust", sql);
+		Tables.create(tableNames[1], sql);
 		
 		sql = "CREATE TABLE IF NOT EXISTS author ( "
 			+ "author_id CHAR(30) PRIMARY KEY, "
 			+ "name CHAR(30) "
 			+ ");";
-		Tables.create("author", sql);
+		Tables.create(tableNames[2], sql);
 
 		sql = "CREATE TABLE IF NOT EXISTS publisher ( "
 			+ "publisher_id CHAR(30) PRIMARY KEY, "
 			+ "name CHAR(30) "
 			+ ");";
-		Tables.create("publisher", sql);
+		Tables.create(tableNames[3], sql);
 		
 		sql = "CREATE TABLE IF NOT EXISTS book ( "
 			+ "isbn CHAR(30) PRIMARY KEY, "
@@ -57,7 +57,7 @@ public class Driver {
 			+ "publisher_id CHAR(30), "
 			+ "FOREIGN KEY (publisher_id) REFERENCES publisher(publisher_id)"
 			+ "); ";
-		Tables.create("book", sql);
+		Tables.create(tableNames[4], sql);
 		
 		sql = "CREATE TABLE IF NOT EXISTS writes ( "
 			+ "isbn CHAR(30), "
@@ -66,7 +66,7 @@ public class Driver {
 			+ "FOREIGN KEY (isbn) REFERENCES book(isbn),"
 			+ "FOREIGN KEY (author_id) REFERENCES author(author_id) "
 			+ ");";
-		Tables.create("writes", sql);
+		Tables.create(tableNames[5], sql);
 		
 		sql = "CREATE TABLE IF NOT EXISTS orders ( "
 			+ "time TIMESTAMP, "
@@ -77,7 +77,7 @@ public class Driver {
 			+ "FOREIGN KEY (u_id) REFERENCES user (u_id), "
 			+ "FOREIGN KEY (isbn) REFERENCES book (isbn)"
 			+ ");";
-		Tables.create("orders", sql);
+		Tables.create(tableNames[6], sql);
 		
 		sql = "CREATE TABLE IF NOT EXISTS opinion ( "
 			+ "op_id CHAR(30) PRIMARY KEY, "
@@ -89,7 +89,7 @@ public class Driver {
 			+ "FOREIGN KEY (u_id) REFERENCES user(u_id), "
 			+ "FOREIGN KEY (isbn) REFERENCES book(isbn)"
 			+ ");";
-		Tables.create("opinion", sql);
+		Tables.create(tableNames[7], sql);
 		
 		sql = "CREATE TABLE IF NOT EXISTS feedback ( "
 			+ "score INTEGER, "
@@ -99,7 +99,7 @@ public class Driver {
 			+ "FOREIGN KEY (u_id) REFERENCES user(u_id), "
 			+ "FOREIGN KEY (op_id) REFERENCES opinion (op_id) "
 			+ ");";
-		Tables.create("feedback", sql);
+		Tables.create(tableNames[8], sql);
 	}
 	
 	public static void clearTables(){
@@ -114,7 +114,8 @@ public class Driver {
 		System.out.println("1. enter your own query:");
 		System.out.println("2. enter your own update:");
 		System.out.println("3. exit:");
-		System.out.println("4. clear the tables");
+		System.out.println("4. clear the tables (be careful)");
+		System.out.println("5. show the funtionality menu");
 		System.out.println("pleasse enter your choice:");
 	}
 	
@@ -215,7 +216,6 @@ public class Driver {
 			
 			switch (func){
 				case REG:
-					
 					//TODO
 				default:
 					System.out.println("func " + func + " haven't finished yet");
