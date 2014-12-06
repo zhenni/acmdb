@@ -115,7 +115,7 @@ public class Driver {
 
 			createTables(con);
 			BookStore.initialize(con.stmt);
-			UserInterface.setConfiguration(con.stmt);
+			UserInterface.initialize(con.stmt);
 			
 			UserInterface.run();
 		} catch (Exception e) {

@@ -10,6 +10,10 @@ public class UserInterface {
 	public static void setConfiguration(Statement _stmt) {
 		stmt = _stmt;
 	}
+	
+	public static void initialize(Statement _stmt) {
+		setConfiguration(_stmt);
+	}
 
 	public static void displayMenu(int authority) {
 		System.out.println("        Bookstore Management System     ");
@@ -79,7 +83,7 @@ public class UserInterface {
 					Driver.clearTables();
 				}
 				else if (c == 4){
-					BookStore.printFuncMenu(authority);
+					displayFuncMenu(authority);
 					String funcChoice;
 					while ((funcChoice = in.readLine()) == null && funcChoice.length() == 0);
 					int func;
@@ -114,22 +118,6 @@ public class UserInterface {
 		}
 	}
 	
-	private static void handleFunctionality(int op) {
-		try {
-			BookStore.handleFunc(op);
-			
-		} catch (Exception e) {
-			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
-				System.out.println("You have an error in your SQL syntax");
-				e.printStackTrace();
-			} 
-			else {
-				e.printStackTrace();
-				System.err.println("Cannot connect to database server");
-			}
-		}
-	}
-	
 	private static boolean displayLogin() {
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -153,6 +141,91 @@ public class UserInterface {
 		} catch (Exception e) {
 			System.out.println("Some errors when login");
 			return false;
+		}
+	}
+	
+	public static final int REGISTRATION = 1;
+	public static final int ORDERING = 2;
+	public static final int NEWBOOK = 3;
+	public static final int ADDCOPIES = 4;
+	public static final int FEEDBACK = 5;
+	public static final int USEFULNESS_RATING = 6;
+	public static final int TRUST = 7;
+	public static final int BROWSING = 8;
+	public static final int USEFUL_FEEDBACK = 9;
+	public static final int SUGGESTION = 10;
+	public static final int DEGREE = 11;
+	public static final int STATISTICS = 12;
+	public static final int AWARDS = 13;
+	
+	public static void displayFuncMenu(int authority) {	
+		System.out.println("1.  Registration");
+		System.out.println("2.  Ordering");
+		System.out.println("3.  New book");
+		System.out.println("4.  Arrival of more copies");
+		System.out.println("5.  Feedback recordings");
+		System.out.println("6.  Usefulness ratings");
+		System.out.println("7.  Trust recordings");
+		System.out.println("8.  Book browsing");
+		System.out.println("9.  Useful feedbacks");
+		System.out.println("10. Buying suggestions");
+		System.out.println("11. \'Two degrees of separation\'");
+		System.out.println("12. Statistics");
+		System.out.println("13. User awards");
+		
+		if (BookStore.isManager(authority)) {
+			// TODO
+		}
+		System.out.println("Please enter your choice: (1~13)");
+	}
+	
+	private static void handleFunctionality(int op) {
+		try {
+			handleFunc(op);
+			
+		} catch (Exception e) {
+			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
+				System.out.println("You have an error in your SQL syntax");
+				e.printStackTrace();
+			} 
+			else {
+				e.printStackTrace();
+				System.err.println("Cannot connect to database server");
+			}
+		}
+	}
+	
+	public static void handleFunc(int op) {
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			
+			switch (op) {
+			case REGISTRATION:
+				String login_name, password, name, address, phone_num;
+				System.out.println("please enter a login_name:");
+				while ((login_name = in.readLine()) == null && login_name.length() == 0);
+				System.out.println("please enter a password:");
+				while ((password = in.readLine()) == null && password.length() == 0);
+				System.out.println("please enter a name:");
+    		 	while ((name = in.readLine()) == null && name.length() == 0);
+    		 	System.out.println("please enter a address:");
+    		 	while ((address = in.readLine()) == null && address.length() == 0);
+    		 	System.out.println("please enter a phone_num:");
+    		 	while ((phone_num = in.readLine()) == null && phone_num.length() == 0);
+    		 	
+    		 	int res = User.newUser(login_name, password, name, address, phone_num);
+				if (res != -1) System.out.println("success to registration");
+    		 	
+    		 	break;
+			default:
+				
+			}
+			
+			
+			
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.println("ERROR: " + e.getMessage());
 		}
 	}
 }
