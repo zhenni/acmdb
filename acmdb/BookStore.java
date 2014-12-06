@@ -13,7 +13,9 @@ public class BookStore {
 	
 	public static User user;
 	
-	public static void init() throws SQLException {
+	public static void initialize(Statement stmt) throws SQLException {
+		setConfiguration(stmt);
+		
 		user = new User(stmt);
 		//TODO
 	}
@@ -22,8 +24,13 @@ public class BookStore {
 	private static final int USER = 2;
 	
 	public static int authority = 0;
+	
+	public static boolean isManager(int authority) {
+		if (authority == ADMIN) return true;
+		return false;
+	}
 
-	public static void printFuncMenu() {
+	public static void printFuncMenu(int authority) {
 		
 		System.out.println("1.  Registration");
 		System.out.println("2.  Ordering");
@@ -38,8 +45,11 @@ public class BookStore {
 		System.out.println("11. \'Two degrees of separation\'");
 		System.out.println("12. Statistics");
 		System.out.println("13. User awards");
+		
+		if (authority == ADMIN) {
+			// TODO
+		}
 		System.out.println("Please enter your choice: (1~13)");
-
 	}
 	
 	public static final int REG = 1;
@@ -79,6 +89,10 @@ public class BookStore {
 	}
 	
 	public static void login() {
+		
+	}
+	
+	public static void logout() {
 		
 	}
 }

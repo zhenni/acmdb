@@ -5,9 +5,6 @@ import java.sql.*;
 
 public class Driver {
 	
-	public static final int CHOICE = 5;
-	public static final int FUNCTIONALITY = 13;
-	
 	public static final String[] tableNames= { "user","user_trust", "author", "publisher", "book", "writes", "orders", "opinion", "feedback"};
 	
 	public static void createTables(Connector con) {
@@ -117,14 +114,10 @@ public class Driver {
 			System.out.println("Database connection established");
 
 			createTables(con);
-			Functionality.setConfiguration(con.stmt);
-			Functionality.init();
+			BookStore.initialize(con.stmt);
+			UserInterface.setConfiguration(con.stmt);
 			
-			while (true) {
-				BookStore.login();
-				
-				UserInterface.run(BookStore.authority);
-			}
+			UserInterface.run();
 		} catch (Exception e) {
 			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
 				System.out.println("You have an error in your SQL syntax");
@@ -142,25 +135,5 @@ public class Driver {
 				}
 			}
 		}
-	}
-
-	
-	private static void handleFunctionality(int op) {
-		try {
-			
-			Functionality.handleFunc(op);
-			
-		} catch (Exception e) {
-			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
-				System.out.println("You have an error in your SQL syntax");
-				e.printStackTrace();
-			} 
-			else {
-				e.printStackTrace();
-				System.err.println("Cannot connect to database server");
-			}
-		}
-	}
-
-	
+	}	
 }
