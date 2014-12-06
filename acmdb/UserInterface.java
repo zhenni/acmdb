@@ -31,7 +31,7 @@ public class UserInterface {
 	public static void run() {
 		try {
 			while (true) {
-				BookStore.login();
+				while (!displayLogin());
 				
 				int authority = BookStore.authority;
 				
@@ -127,6 +127,32 @@ public class UserInterface {
 				e.printStackTrace();
 				System.err.println("Cannot connect to database server");
 			}
+		}
+	}
+	
+	private static boolean displayLogin() {
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			
+			String loginName = "";
+			String password = "";
+			
+			System.out.println("Please enter your login name:");
+			while ((loginName = in.readLine()) == null);
+			
+			System.out.println("Please enter your password:");
+			while ((password = in.readLine()) == null);
+			
+			if (BookStore.login(loginName, password)) {
+				System.out.println("Login successfully");
+				return true;
+			} else {
+				System.out.println("Login failed");
+				return false;
+			}
+		} catch (Exception e) {
+			System.out.println("Some errors when login");
+			return false;
 		}
 	}
 }
