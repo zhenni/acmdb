@@ -217,8 +217,33 @@ public class UserInterface {
 				if (res != -1) System.out.println("success to registration");
     		 	
     		 	break;
-			default:
+			case ORDERING:
+				break;
+			case NEWBOOK:
+				break;
+			case ADDCOPIES:
+				break;
+			case FEEDBACK:
+				break;
+			case USEFULNESS_RATING:
+				break;
+			case TRUST:
+				break;
+			case BROWSING:
 				
+				break;
+			case USEFUL_FEEDBACK:
+				break;
+			case SUGGESTION:
+				break;
+			case DEGREE:
+				break;
+			case STATISTICS:
+				break;
+			case AWARDS:
+				break;
+			default:
+				System.out.println("Functionality not support");
 			}
 			
 			
