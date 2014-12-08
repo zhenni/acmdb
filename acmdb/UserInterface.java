@@ -261,9 +261,9 @@ public class UserInterface {
 					System.out.println("Insufficient user permissions.");
 				
 				String title, year, copy_num, price, format, subject, keywords;
-				String publisher_id, st;
-				String[] author_name;
-				int y, copy, pub;
+				String publisher_name, st;
+				String[] author_names;
+				int y, copy;
 				double pri;
 				
 				System.out.println("Please enter the isbn of the new book:");
@@ -314,8 +314,8 @@ public class UserInterface {
 				System.out.println("Please enter the keywords of the new book:");
 				while ((keywords = in.readLine()) == null);
 				
-				System.out.println("Please enter the publisher id of the new book:");
-				while ((publisher_id = in.readLine()) == null);
+				System.out.println("Please enter the name of the publisher of the new book:");
+				while ((publisher_name = in.readLine()) == null);
 				
 				while (true) {
 					System.out.println("Please enter the number of the authors of the new book:");
@@ -330,13 +330,13 @@ public class UserInterface {
 				
 				for (int i = 1; i <= n; ++i) {
 					System.out.println("Please enter the name of the author " + i);
-					while ((author_name[i] = in.readLine()) == null);
+					while ((author_names[i] = in.readLine()) == null);
 					
-					if (Author.newAuthor(author_name[i]) == -1)
+					if (Author.newAuthor(author_names[i]) == -1)
 						System.out.println("Author added failed.");
 				}
 				
-				if (Book.newBook(isbn, title, year, copy_num, price, format, subject, keywords, publisher_id, n, author_name) == -1)
+				if (Book.newBook(isbn, title, year, copy_num, price, format, subject, keywords, publisher_name, n, author_name) == -1)
 					System.out.println("New book added failed.");
 				
 				break;
@@ -363,7 +363,8 @@ public class UserInterface {
 				break;
 			case FEEDBACK:
 				int score;
-				String comment = null, date = null;
+				String comment = null;
+				date = null;
 				
 				System.out.println("Please enter the isbn of the book you want to give feedback:");
 				while ((isbn = in.readLine()) == null);
@@ -416,7 +417,7 @@ public class UserInterface {
 				System.out.println("Please enter the login name of the user of the feedback you want to assess:");
 				while ((name = in.readLine()) == null);
 				
-				String u2_id = User.getUserId(name);
+				int u2_id = User.getUserId(name);
 				
 				while (true) {
 					System.out.println("Please give your numerical score(0 = 'userless', 1 = 'useful', 2 = 'very useful'):");
@@ -465,7 +466,8 @@ public class UserInterface {
 				break;
 			case BROWSING:
 				String need_author = null, need_publisher = null, need_title = null, need_subject = null;
-				String author_name = null, publisher_name = null, title = null, subject = null, order = null;
+				publisher_name = null; title = null; subject = null;
+				String author_name = null, order = null;
 				int c;
 				
 				System.out.println("Would you want to search depends on authors? (y/n)");
