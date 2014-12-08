@@ -224,6 +224,7 @@ public class Book {
 		
 		for (int i = 1; i <= numCols; ++i)
 			System.out.println(rsmd.getColumnName(i) + "  ");
+		System.out.println();
 		while (rs.next()) {
 			for (int i = 1; i <= numCols; ++i)
 				System.out.print(rs.getString(i) + "  ");

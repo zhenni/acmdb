@@ -136,8 +136,8 @@ public class BookStore {
 		int numCols = rsmd.getColumnCount();
 		
 		for (int i = 1; i <= numCols; ++i)
-			System.out.println(rsmd.getColumnName(i) + "  ");
-		
+			System.out.print(rsmd.getColumnName(i) + "  ");
+		System.out.println();
 		for (int row = 1; res.next() && row <= m; ++row) {
 			for (int i = 1; i <= numCols; ++i)
 				System.out.print(res.getString(i) + "  ");
