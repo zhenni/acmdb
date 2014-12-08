@@ -19,7 +19,11 @@ public class Book {
 		return res;
 	}
 	
-	public static void find(String need_author, String author, String need_publisher, String publisher, String need_title, String title, String need_subject, String subject, int order) {
+	public static boolean find(String author, String publisher, String title, String subject, int order) {
 		// TODO
+	}
+	
+	public static boolean displayUsefulFeedback(String isbn, int n) {
+		
 	}
 }

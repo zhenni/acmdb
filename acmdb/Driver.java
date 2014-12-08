@@ -14,7 +14,7 @@ public class Driver {
 					+"u_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,"
 					+"name CHAR(30), "
 					+"login_name CHAR(30) UNIQUE, "
-					+"password CHAR(30), "
+					+"password CHAR(30) NOT NULL, "
 					+"address CHAR(100), "
 					+"phone_num CHAR(20) "
 					+");";

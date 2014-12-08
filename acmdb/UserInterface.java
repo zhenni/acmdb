@@ -284,9 +284,29 @@ public class UserInterface {
 					break;
 				}
 				
-				Book.find(need_author, author_name, need_publisher, publisher_name, need_title, title, need_subject, subject, c);
+				if (!Book.find(author_name, publisher_name, title, subject, c))
+					System.out.println("Operation failed.");
 				break;
 			case USEFUL_FEEDBACK:
+				String isbn, st;
+				int n;
+				
+				System.out.println("Enter the isbn of the book you want to ask:");
+				while ((isbn = in.readLine()) == null);
+				
+				while (true) {
+					System.out.println("Enter the number of top 'useful' feedbacks you expect to displayed:");
+					while ((st = in.readLine()) == null);
+					try {
+						c = Integer.parseInt(st);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				if (!Book.displayUsefulFeedback(isbn, c))
+					System.out.println("Operation failed.");
 				break;
 			case SUGGESTION:
 				break;
