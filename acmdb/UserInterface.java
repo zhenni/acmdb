@@ -4,7 +4,7 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Locale;
 
 public class UserInterface {
@@ -162,9 +162,10 @@ public class UserInterface {
 	public static final int TRUST = 7;
 	public static final int BROWSING = 8;
 	public static final int USEFUL_FEEDBACK = 9;
-	public static final int DEGREE = 10;
-	public static final int STATISTICS = 11;
-	public static final int AWARDS = 12;
+	public static final int SUGGESTION = 10;
+	public static final int DEGREE = 11;
+	public static final int STATISTICS = 12;
+	public static final int AWARDS = 13;
 	
 	public static void displayFuncMenu(int authority) {	
 		System.out.println("1.  Registration");
@@ -261,11 +262,16 @@ public class UserInterface {
 					System.out.println("Please enter the date:(yyyy-MM-dd hh:mm:ss)");
 					while ((time = in.readLine()) == null);
 					try {
+						System.err.println(time);
 						DateFormat dateFormat;
 						dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
 						dateFormat.setLenient(false);
 						java.util.Date timeDate = dateFormat.parse(time);
 						stamp = new java.sql.Timestamp(timeDate.getTime());
+						System.err.println("time :" + time);
+						System.err.println("timedate : " + timeDate);
+						System.err.println("timestamp : " + stamp);
+						
 					} catch (Exception e) {
 						continue;
 					}
@@ -276,8 +282,6 @@ public class UserInterface {
 					System.out.println("Ordering successed.");
 				else System.out.println("Operation failed.");
 				
-				Book.giveSuggestBooks(User.u_id, isbn);
-				
 				break;
 			case NEWBOOK:
 				if (!BookStore.isManager(BookStore.authority))
@@ -285,7 +289,7 @@ public class UserInterface {
 				
 				String title, year, copy_num, price, format, subject, keywords;
 				String publisher_name, st;
-				ArrayList<String> author_names = new ArrayList<String>();
+				HashSet<String> author_names = new HashSet<String>();
 				int y, copy;
 				
 				System.out.println("Please enter the isbn of the new book:");
@@ -362,7 +366,7 @@ public class UserInterface {
 					*/
 				}
 				
-				if (Book.newBook(isbn, title, y, copy, price, format, subject, keywords, publisher_name, n, author_names) == -1)
+				if (Book.newBook(isbn, title, y, copy, price, format, subject, keywords, publisher_name, author_names) == -1)
 					System.out.println("New book added failed.");
 				
 				break;
@@ -580,6 +584,9 @@ public class UserInterface {
 				if (Book.displayUsefulFeedback(isbn, c) == -1)
 					System.out.println("Operation failed.");
 				
+				break;
+			case SUGGESTION:
+				Book.giveSuggestBooks(User.u_id);
 				break;
 			case DEGREE:
 				String author1, author2;

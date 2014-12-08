@@ -11,11 +11,11 @@ public class Book {
 	}
 	
 	public static int newBook(String isbn, String title, int year, int copy_num, String price, String format, String subject,
-			String keywords, String publisher_id, int n, ArrayList<String> authors) throws SQLException{
+			String keywords, String publisher_id, HashSet<String> authors) throws SQLException{
 		int res;
 		String sql;
 		
-		sql = "INSERT INTO book(isbn, title, year, copy_num, price, format, subject, keywords, publisher_id) VALUES (\'"
+		sql = "INSERT INTO book(isbn, title, year_of_publication, copy_num, price, format, subject, keywords, publisher_id) VALUES (\'"
 				+ isbn + "\', \'"
 				+ title + "\', \'"
 				+ year + "\', \'"
@@ -29,8 +29,8 @@ public class Book {
 		res = executeUpdate(sql);
 		if(res == -1) return -1;
 		
-		for (int i = 0; i < n; ++i){
-			sql = "INSERT writes(isbn, author_id) VALUES (\'"+isbn+"\', \'"+authors.get(i)+"\')";
+		for (Iterator<String> it = authors.iterator(); it.hasNext();){
+			sql = "INSERT writes(isbn, author_id) VALUES (\'"+isbn+"\', \'"+it.next()+"\')";
 			res = executeUpdate(sql);
 			if (res == -1) return -1;
 		}
@@ -204,9 +204,9 @@ public class Book {
 	 * The suggested books should be sorted on decreasing sales count
 	 * (i.e., most popular first); count only sales to users like `X'.
 	 * @throws SQLException */
-	public static void giveSuggestBooks(int u_id, String isbn) throws SQLException {
+	public static void giveSuggestBooks(int u_id) throws SQLException {
 		String sql = "SELECT B.* "
-				+ "FROM Book B, order O1, order O2 "
+				+ "FROM Book B, orders O1, orders O2 "
 				+ "WHERE O1.u_id = \'" + u_id + "\' AND "
 				+ "O1.isbn = O2.isbn "
 				+ "GROUP BY B.isbn "
