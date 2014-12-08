@@ -11,7 +11,7 @@ public class Order{
 		stmt = _stmt;
 	}
 	
-	public static int order(int u_id, String isbn, int copy_num, String date) throws Exception{
+	public static int order(int u_id, String isbn, int copy_num, java.sql.Timestamp time) throws Exception{
 		String sql;
 		int res;
 		
@@ -21,7 +21,7 @@ public class Order{
 		if(book_copies < copy_num) return -1;
 
 		
-		sql = "INSERT INTO order(date, copy_num, u_id, isbn) VALUES (\'"+date+"\', \'"+copy_num+"\', \'"+u_id+"\', \'"+isbn+"\')";
+		sql = "INSERT INTO order(time, copy_num, u_id, isbn) VALUES (\'"+time+"\', \'"+copy_num+"\', \'"+u_id+"\', \'"+isbn+"\')";
 		res = executeUpdate(sql);
 		if (res == -1) return -1;
 		

@@ -120,13 +120,13 @@ public class Book {
 	 * <p>Users can record their feedback for a book. 
 	 * We should record the date, the numerical score (0= terrible, 10= masterpiece), and an optional short text.
 	 * No changes are allowed; only one feedback per user per book is allowed.</p>*/
-	public static int giveFeedback(String isbn, int u_id, int score, String comment, String date) throws SQLException{
-		String sql = "INSERT INTO opinion(isbn, u_id, score, comment, date) VALUES (\'" 
+	public static int giveFeedback(String isbn, int u_id, int score, String comment, java.sql.Timestamp time) throws SQLException{
+		String sql = "INSERT INTO opinion(isbn, u_id, score, comment, time) VALUES (\'" 
 			+ isbn + "\', \'"
 			+ u_id + "\', \'"
 			+ score + "\', \'"
 			+ comment + "\', \'"
-			+ date + "\')";
+			+ time + "\')";
 		return executeUpdate(sql);
 	}
 
