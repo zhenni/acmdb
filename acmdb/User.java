@@ -31,6 +31,15 @@ public class User {
 		int res = executeUpdate(sql);
 		return res;
 	}
+	
+	public static boolean exists(String login_name) throws Exception{
+		String sql = "SELECT COUNT(*) "
+				+ "FROM user "
+				+ "WHERE login_name = \'" + login_name + "\'";
+		int cnt = Integer.parseInt(getQueryWithOneResult(sql));
+		if (cnt > 0) return true;
+		return false;
+	}
 
 	public static int getUserId(String login_name) throws Exception{
 		String sql = "SELECT u_id FROM user WHERE user.login_name = \'"+login_name+"\'";
