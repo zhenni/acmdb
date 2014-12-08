@@ -231,8 +231,8 @@ public class UserInterface {
 			case TRUST:
 				break;
 			case BROWSING:
-				String need_author, need_publisher, need_title, need_subject;
-				String author_name, publisher_name, title, subject, order;
+				String need_author = null, need_publisher = null, need_title = null, need_subject = null;
+				String author_name = null, publisher_name = null, title = null, subject = null, order = null;
 				int c;
 				
 				System.out.println("Would you want to search depends on authors? (y/n)");
