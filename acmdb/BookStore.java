@@ -134,6 +134,10 @@ public class BookStore {
 		ResultSet res = stmt.executeQuery(sql);
 		ResultSetMetaData rsmd = res.getMetaData();
 		int numCols = rsmd.getColumnCount();
+		
+		for (int i = 1; i <= numCols; ++i)
+			System.out.print(rsmd.getColumnName(i) + "  ");
+		
 		for (int row = 1; res.next() && row <= m; ++row) {
 			for (int i = 1; i <= numCols; ++i)
 				System.out.print(res.getString(i) + "  ");

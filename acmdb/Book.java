@@ -221,6 +221,9 @@ public class Book {
 		ResultSet rs = stmt.executeQuery(sql);
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int numCols = rsmd.getColumnCount();
+		
+		for (int i = 1; i <= numCols; ++i)
+			System.out.print(rsmd.getColumnName(i) + "  ");
 		while (rs.next()) {
 			for (int i = 1; i <= numCols; ++i)
 				System.out.print(rs.getString(i) + "  ");
