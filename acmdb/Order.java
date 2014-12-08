@@ -15,9 +15,10 @@ public class Order{
 		String sql;
 		int res;
 		
-		sql = "SELECT * FROM book WHERE isbn = \'" + isbn + "\'";
+		sql = "SELECT copy_num FROM book WHERE isbn = \'" + isbn + "\'";
 	
-		if(getQueryResultSize(sql) < copy_num) return -1;
+		int book_copies = Integer.parseInt(getQueryWithOneResult(sql));
+		if(book_copies < copy_num) return -1;
 
 		
 		sql = "INSERT INTO order(date, copy_num, u_id, isbn) VALUES (\'"+date+"\', \'"+copy_num+"\', \'"+u_id+"\', \'"+isbn+"\')";
@@ -30,9 +31,24 @@ public class Order{
 		return res;
 	}
 	
-	public static int getQueryResultSize(String sql) {
-		// TODO Auto-generated method stub
-		return 0;
+	public static String getQueryWithOneResult(String sql) throws SQLException {
+		System.err.println("DEBUG CHECK : "+ sql);
+		ResultSet rs = stmt.executeQuery(sql);
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int numCols = rsmd.getColumnCount();
+		
+		if (numCols > 1){
+			System.err.println("not only one result col");
+		}
+		rs.next();
+		
+		String res = rs.getString(1);
+		
+		if(rs.next()){
+			System.err.println("not only one result");
+		}
+		rs.close();
+		return res;
 	}
 
 	public static int executeUpdate(String sql) throws SQLException{

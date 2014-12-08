@@ -47,7 +47,7 @@ public class Book {
 	 * <li>(b) by the average numerical score of the feedbacks</li>
 	 * <li>(c) by the average numerical score of the trusted user feedbacks.</li>
 	 * @throws SQLException */
-	public static int find(String author, String publisher, String title, String subject, int order) throws SQLException {		
+	public static int find(int u_id, String author, String publisher, String title, String subject, int order) throws SQLException {		
 		if (author == null) author = "";
 		if (publisher == null) publisher = "";
 		if (title == null) title = "";
@@ -69,14 +69,23 @@ public class Book {
 		}
 		//(b) by the average numerical score of the feedbacks
 		else if (order == 2){
-			//FIXME
 			sql += ("ORDER BY ("
-				+ "SELECT AVG(F.score) "
-				+ "FROM feedback F, opinion O "
-				+ "WHERE F.u_id = O.u_id AND F.isbn = O.isbn"
+				+ "SELECT AVG(O.score) "
+				+ "FROM opinion O "
+				+ "WHERE O.isbn = B.isbn "
 				+ "GROUP BY B.isbn)");
-		}else if(order == 3){
-			//TODO
+		}
+		//(c) by the average numerical score of the trusted user feedbacks
+		else if(order == 3){
+			sql += ("ORDER BY("
+					+ "SELECT AVG(O.score) "
+					+ "FROM opinion O, user_trust T "
+					+ "WHERE "
+					+ "O.isbn = B.isbn AND "
+					+ "T.u_id1 = \'" + u_id + "\' AND "
+					+ "T.u_id2 = O.u_id AND "
+					+ "T.is_trust = \'1\'"
+					+ "GROUP BY B.isbn)");
 		}else{
 			System.out.println("Please choose the order from 1 to 3");
 		}
@@ -99,13 +108,18 @@ public class Book {
 		return res;
 	}
 	
-	
+	/**<strong>Arrival of more copies:</strong>
+	 * <p>The store manager increases the appropriate counts.</p>*/
 	public static int addCopies(String isbn, int num_copy) throws SQLException{
 		String sql = "UPDATE book SET num_copy = numCopy + " + num_copy;
 		int res = executeUpdate(sql);
 		return res;
 	}
-
+	
+	/**<strong>Feedback recordings: </strong>
+	 * <p>Users can record their feedback for a book. 
+	 * We should record the date, the numerical score (0= terrible, 10= masterpiece), and an optional short text.
+	 * No changes are allowed; only one feedback per user per book is allowed.</p>*/
 	public static int giveFeedback(String isbn, int u_id, int score, String comment, String date) throws SQLException{
 		String sql = "INSERT INTO opinion(isbn, u_id, score, comment, date) VALUES (\'" 
 			+ isbn + "\', \'"
@@ -116,6 +130,7 @@ public class Book {
 		return executeUpdate(sql);
 	}
 
+	/**<p>The user can only give one book one feedback once</p>*/
 	public static boolean haveGivenFeedback(String isbn, int u_id) throws Exception{
 		String sql = "SELECT COUNT(*) FROM opinion WHERE isbn = \'"+isbn+"\' AND u_id = \'"+ u_id + "\'";
 		int num = Integer.parseInt(getQueryWithOneResult(sql));
@@ -123,6 +138,10 @@ public class Book {
 		return true;
 	}
 
+	/**<strong>Usefulness ratings:</strong> 
+	 * <p>Users can assess a feedback record, giving it a numerical score 0, 1, or 2
+	 * ('useless', 'useful', 'very useful' respectively).
+	 * A user should not be allowed to provide a usefulness-rating for his/her own feedbacks.</p>*/
 	public static int usefulnessRating(int u_id, String isbn, int u_id2, int score) throws SQLException{
 		String sql = "INSERT INTO feedback(u_id, isbn, u_id2, score) VALUES (\'"
 			+ u_id + "\', \'"
@@ -132,6 +151,37 @@ public class Book {
 		return executeUpdate(sql);
 	}
 
+	/**<strong>Two degrees of separation': </strong>
+	 * <p> Given two author names, determine their `degree of separation', 
+	 * defined as follows: Two authors `A' and `B' are 1-degree away 
+	 * if they have co-authored at least one book together; 
+	 * they are 2-degrees away if there exists an author `C' who is 1-degree away from each of `A' and `B', 
+	 * AND `A' and `B' are not 1-degree away at the same time.</p>*/
+	public static void giveSeparationDegree(String author1, String author2) {
+		// TODO Auto-generated method stub
+		String sql = "CREATE OR REPLACE VIEW degree1 AS"
+				+ "SELECT * ";
+	}
+
+	/**<strong>Buying suggestions:</strong> 
+	 * Like most e-commerce websites, when a user orders a copy of book `A', 
+	 * your system should give a list of other suggested books.
+	 * Book `B' is suggested, if there exist a user `X' that bought both `A' and `B'.
+	 * The suggested books should be sorted on decreasing sales count
+	 * (i.e., most popular first); count only sales to users like `X'.
+	 * @throws SQLException */
+	public static void giveSuggestBooks(int u_id, String isbn) throws SQLException {
+		String sql = "SELECT B.* "
+				+ "FROM Book B, order O1, order O2 "
+				+ "WHERE O1.u_id = \'" + u_id + "\' AND "
+				+ "O1.isbn = O2.isbn "
+				+ "GROUP BY B.isbn "
+				+ "ORDER BY SUM(O2.num_copy) DESC";
+		printQueryResult(sql);
+	}
+
+	
+	
 	public static void printQueryResult(String sql) throws SQLException{
 		System.err.println("DEBUG CHECK : "+ sql);
 		ResultSet rs = stmt.executeQuery(sql);
@@ -151,6 +201,7 @@ public class Book {
 		ResultSet rs = stmt.executeQuery(sql);
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int numCols = rsmd.getColumnCount();
+		
 		if (numCols > 1){
 			System.err.println("not only one result col");
 		}
@@ -168,16 +219,6 @@ public class Book {
 	public static int executeUpdate(String sql) throws SQLException{
 		System.err.println("DEBUG CHECK : " + sql);
 		return stmt.executeUpdate(sql);
-	}
-
-	public static void giveSeparationDegree(String author1, String author2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void giveSuggestBooks(String isbn) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
