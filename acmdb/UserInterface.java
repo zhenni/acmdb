@@ -1,8 +1,12 @@
 package acmdb;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class UserInterface {
 	
@@ -231,8 +235,9 @@ public class UserInterface {
     		 	
     		 	break;
 			case ORDERING:
-				String isbn, num, date = null;
+				String isbn, num, time = null;
 				int n;
+				java.sql.Timestamp stamp;
 				
 				System.out.println("Please enter the isbn of the book you want to order:");
 				while ((isbn = in.readLine()) == null);
@@ -248,8 +253,22 @@ public class UserInterface {
 					break;
 				}
 				
-				// TODO
-				if (Order.order(User.u_id, isbn, n, date) != -1)
+				while (true) {
+					System.out.println("Please enter the date:(yyyy-MM-dd hh:mm:ss)");
+					while ((time = in.readLine()) == null);
+					try {
+						DateFormat dateFormat;
+						dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
+						dateFormat.setLenient(false);
+						java.util.Date timeDate = dateFormat.parse(time);
+						stamp = new java.sql.Timestamp(timeDate.getTime());
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				if (Order.order(User.u_id, isbn, n, stamp) != -1)
 					System.out.println("Ordering successed.");
 				else System.out.println("Operation failed.");
 				
@@ -366,8 +385,9 @@ public class UserInterface {
 				break;
 			case FEEDBACK:
 				int score;
-				String comment = null;
-				date = null;
+				String comment = null, time;
+				java.sql.Timestamp stamp;
+				
 				
 				System.out.println("Please enter the isbn of the book you want to give feedback:");
 				while ((isbn = in.readLine()) == null);
@@ -405,9 +425,22 @@ public class UserInterface {
 					while ((comment = in.readLine()) == null);
 				}
 				
-				// TODO with input DATE
+				while (true) {
+					System.out.println("Please enter the date:(yyyy-MM-dd hh:mm:ss)");
+					while ((time = in.readLine()) == null);
+					try {
+						DateFormat dateFormat;
+						dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
+						dateFormat.setLenient(false);
+						java.util.Date timeDate = dateFormat.parse(time);
+						stamp = new java.sql.Timestamp(timeDate.getTime());
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
 				
-				if (Book.giveFeedback(isbn, User.u_id, score, comment, date) != -1) {
+				if (Book.giveFeedback(isbn, User.u_id, score, comment, stamp) != -1) {
 					System.out.println("Given comments successed.");
 				} else System.out.println("Operation failed.");
 				
@@ -562,7 +595,8 @@ public class UserInterface {
 				break;
 			case STATISTICS:
 				int m;
-				String time1, time2;
+				String time1 = null, time2 = null;
+				java.sql.Timestamp stamp1, stamp2;
 				
 				while (true) {
 					System.out.println("Please enter the number of top items you want to see:");
@@ -575,14 +609,37 @@ public class UserInterface {
 					break;
 				}
 				
-				System.out.println("Please enter the start date of the statistics:");
-				// TODO enter the date, save into time1
+				while (true) {
+					System.out.println("Please enter the start date of the statistics:(yyyy-MM-dd hh:mm:ss)");
+					while ((time1 = in.readLine()) == null);
+					try {
+						DateFormat dateFormat;
+						dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
+						dateFormat.setLenient(false);
+						java.util.Date timeDate = dateFormat.parse(time1);
+						stamp1 = new java.sql.Timestamp(timeDate.getTime());
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
 				
-				System.out.println("Please enter the end date of the statistics:");
-				// TODO save into time2
+				while (true) {
+					System.out.println("Please enter the end date of the statistics:(yyyy-MM-dd hh:mm:ss)");
+					while ((time2 = in.readLine()) == null);
+					try {
+						DateFormat dateFormat;
+						dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
+						dateFormat.setLenient(false);
+						java.util.Date timeDate = dateFormat.parse(time1);
+						stamp2 = new java.sql.Timestamp(timeDate.getTime());
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
 				
-				BookStore.displayStatistics(m, time1, time2);
-				
+				BookStore.displayStatistics(m, stamp1, stamp2);
 				break;
 			case AWARDS:
 				while (true) {

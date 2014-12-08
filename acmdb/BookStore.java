@@ -70,7 +70,7 @@ public class BookStore {
 		User.phone_num = null;
 	}
 
-	public static void displayStatistics(int m, String time1, String time2) throws SQLException {
+	public static void displayStatistics(int m, java.sql.Timestamp time1, java.sql.Timestamp time2) throws SQLException {
 		// the list of the m most popular books(in terms of copies sold in this semester)
 		String sql = "SELECT isbn, SUM(copy_num) AS S"
 					+"FROM orders O"

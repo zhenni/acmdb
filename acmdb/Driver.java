@@ -72,7 +72,7 @@ public class Driver {
 		Tables.create(tableNames[6], sql);
 		
 		sql = "CREATE TABLE IF NOT EXISTS opinion ( "
-			+ "date DATE, "
+			+ "time TIMESTAMP, "
 			+ "short_text VARCHAR(200), "
 			+ "score INTEGER, "
 			+ "u_id INTEGER NOT NULL, "
