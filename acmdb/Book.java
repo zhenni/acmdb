@@ -156,12 +156,48 @@ public class Book {
 	 * defined as follows: Two authors `A' and `B' are 1-degree away 
 	 * if they have co-authored at least one book together; 
 	 * they are 2-degrees away if there exists an author `C' who is 1-degree away from each of `A' and `B', 
-	 * AND `A' and `B' are not 1-degree away at the same time.</p>*/
-	public static void giveSeparationDegree(String author1, String author2) {
+	 * AND `A' and `B' are not 1-degree away at the same time.</p>
+	 * @throws SQLException */
+	public static void giveSeparationDegree(String author1, String author2) throws Exception {
 		// TODO Auto-generated method stub
-		String sql = "CREATE OR REPLACE VIEW degree1 AS"
-				+ "SELECT * ";
+		
+		String sql = "CREATE OR REPLACE VIEW degree AS"
+				+ "SELECT W1.author_id AS a1, W2.author_id AS a2, W1.isbn AS isbn "
+				+ "FROM writes W1, writes W2 "
+				+ "WHERE"
+				+ "W1.isbn = W2.isbn AND "
+				+ "a1 <> a2 ";
+		if (executeUpdate(sql) == -1){
+			System.err.println("failed to create view");
+			return;
+		}
+		
+		sql = "SELECT COUNT(*) FROM degree"
+				+ "WHERE "
+				+ "a1 = \'" + author1 + "\' AND "
+				+ "a2 = \'" + author2 + "\'";
+		int cnt = Integer.parseInt(getQueryWithOneResult(sql));
+		if(cnt > 0){
+			System.out.println("Authors " + author1 + " and " + author2 + " are 1-degree away");
+			return;
+		}
+	
+		sql =  "SELECT COUNT(*) "
+			+ "FROM degree D1, degree D2 "
+			+ "WHERE D1.isbn = D2.isbn AND "
+			+ "D1.a2 = D2.a1 AND "
+			+ "D1.a1 = \'" + author1 + "\' AND "
+			+ "D2.a2 = \'" + author2 + "\'";
+		
+		cnt = Integer.parseInt(getQueryWithOneResult(sql));
+		if(cnt > 0){
+			System.out.println("Authors " + author1 + " and " + author2 + " are 2-degree away");
+			return;
+		}
+		
+		System.out.println("Authors " + author1 + " and " + author2 + " are neither 1-degree nor 2-degree away");
 	}
+	
 
 	/**<strong>Buying suggestions:</strong> 
 	 * Like most e-commerce websites, when a user orders a copy of book `A', 
