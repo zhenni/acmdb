@@ -54,12 +54,11 @@ public class Book {
 		if (subject == null) subject = "";
 		
 		String sql = "SELECT DISTINCT B.* " 
-				+ "FROM book B, author A, writes W "
+				+ "FROM book B, writes W "
 				+ "WHERE "
 				+ "B.isbn = W.isbn AND "
-				+ "A.author_id = W.author_id AND "
-				+ "A.name like \'%" + author + "%\' AND " 
-				+ "B.publisher like \'%" + publisher + "%\' AND "
+				+ "W.author_id like \'%" + author + "%\' AND " 
+				+ "B.publisher_id like \'%" + publisher + "%\' AND "
 				+ "B.title like \'%" + title + "%\' AND "
 				+ "B.subject like \'%" + subject + "%\' "
 				;

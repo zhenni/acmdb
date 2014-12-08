@@ -48,8 +48,7 @@ public class Driver {
 			+ "format CHAR(30), "
 			+ "subject CHAR(100), "
 			+ "keywords CHAR(100), "
-			+ "publisher_id INTEGER, "
-			+ "FOREIGN KEY (publisher_id) REFERENCES publisher(publisher_id)"
+			+ "publisher_id INTEGER "
 			+ "); ";
 		Tables.create(tableNames[4], sql);
 		
@@ -57,8 +56,7 @@ public class Driver {
 			+ "isbn CHAR(30), "
 			+ "author_id INTEGER, "
 			+ "PRIMARY KEY (isbn, author_id), "
-			+ "FOREIGN KEY (isbn) REFERENCES book(isbn),"
-			+ "FOREIGN KEY (author_id) REFERENCES author(author_id) "
+			+ "FOREIGN KEY (isbn) REFERENCES book(isbn) "
 			+ ");";
 		Tables.create(tableNames[5], sql);
 		

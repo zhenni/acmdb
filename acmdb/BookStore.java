@@ -68,7 +68,6 @@ public class BookStore {
 	}
 
 	public static void displayStatistics() {
-		// TODO Auto-generated method stub
 		
 	}
 
