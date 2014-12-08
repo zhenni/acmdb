@@ -159,8 +159,6 @@ public class Book {
 	 * AND `A' and `B' are not 1-degree away at the same time.</p>
 	 * @throws SQLException */
 	public static void giveSeparationDegree(String author1, String author2) throws Exception {
-		// TODO Auto-generated method stub
-		
 		String sql = "CREATE OR REPLACE VIEW degree AS"
 				+ "SELECT W1.author_id AS a1, W2.author_id AS a2, W1.isbn AS isbn "
 				+ "FROM writes W1, writes W2 "
