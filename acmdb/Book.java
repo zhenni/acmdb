@@ -223,7 +223,7 @@ public class Book {
 		int numCols = rsmd.getColumnCount();
 		
 		for (int i = 1; i <= numCols; ++i)
-			System.out.print(rsmd.getColumnName(i) + "  ");
+			System.out.println(rsmd.getColumnName(i) + "  ");
 		while (rs.next()) {
 			for (int i = 1; i <= numCols; ++i)
 				System.out.print(rs.getString(i) + "  ");
