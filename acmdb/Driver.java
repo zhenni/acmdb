@@ -7,9 +7,7 @@ public class Driver {
 	
 	public static final String[] tableNames= { "user","user_trust", "author", "publisher", "book", "writes", "orders", "opinion", "feedback"};
 	
-	public static void createTables(Connector con) {
-		Tables.setConfiguration(con.stmt);
-		
+	public static void createTables() {
 		String sql = "CREATE TABLE IF NOT EXISTS user ( "
 					+"u_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,"
 					+"name CHAR(30), "
@@ -114,10 +112,15 @@ public class Driver {
 		try {
 			con = new Connector();
 			System.out.println("Database connection established");
-
-			createTables(con);
-			BookStore.initialize(con.stmt);
-			UserInterface.initialize(con.stmt);
+			
+			Tables.setConfiguration(con.stmt);
+			Book.setConfiguration(con.stmt);
+			BookStore.setConfiguration(con.stmt);
+			Order.setConfiguration(con.stmt);
+			User.setConfiguration(con.stmt);
+			UserInterface.setConfiguration(con.stmt);
+			
+			createTables();
 			
 			UserInterface.run();
 		} catch (Exception e) {

@@ -230,7 +230,7 @@ public class UserInterface {
     		 	
     		 	break;
 			case ORDERING:
-				String isbn, num;
+				String isbn, num, date;
 				int n;
 				
 				System.out.println("Please enter the isbn of the book you want to order:");
@@ -249,7 +249,7 @@ public class UserInterface {
 				
 				// TODO
 				
-				if (Order.order(User.u_id, isbn, n))
+				if (Order.order(User.u_id, isbn, n, date))
 					System.out.println("Ordering successed.");
 				else System.out.println("Operation failed.");
 				
@@ -538,15 +538,27 @@ public class UserInterface {
 				
 				if (Book.displayUsefulFeedback(isbn, c) == -1)
 					System.out.println("Operation failed.");
-				break;
-					
-			case DEGREE:
 				
+				break;
+			case DEGREE:
+				String author1, author2;
+				
+				System.out.println("Please enter the login name of one of the author:");
+				while ((author1 = in.readLine()) == null);
+				
+				System.out.println("Please enter the login name of the other author:");
+				while ((author2 = in.readLine()) == null);
+				
+				Book.giveSeparationDegree(author1, author2);
 				
 				break;
 			case STATISTICS:
+				BookStore.displayStatistics();
+				
 				break;
 			case AWARDS:
+				BookStore.displayAwardedUsers();
+				
 				break;
 			default:
 				System.out.println("Functionality not support");
