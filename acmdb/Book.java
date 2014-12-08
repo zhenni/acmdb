@@ -18,4 +18,8 @@ public class Book {
 		int res = stmt.executeUpdate(sql);
 		return res;
 	}
+	
+	public static void find(String need_author, String author, String need_publisher, String publisher, String need_title, String title, String need_subject, String subject, int order) {
+		// TODO
+	}
 }

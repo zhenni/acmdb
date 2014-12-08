@@ -202,6 +202,7 @@ public class UserInterface {
 			switch (op) {
 			case REGISTRATION:
 				String login_name, password, name, address, phone_num;
+				
 				System.out.println("please enter a login_name:");
 				while ((login_name = in.readLine()) == null && login_name.length() == 0);
 				System.out.println("please enter a password:");
@@ -230,7 +231,60 @@ public class UserInterface {
 			case TRUST:
 				break;
 			case BROWSING:
+				String need_author, need_publisher, need_title, need_subject;
+				String author_name, publisher_name, title, subject, order;
+				int c;
 				
+				System.out.println("Would you want to search depends on authors? (y/n)");
+				while ((need_author = in.readLine()) == null || !(need_author.equals("y") || need_author.equals("n")));
+				if (need_author.equals("y")) {
+					System.out.println("Please enter the author's name:");
+					while ((author_name = in.readLine()) == null);
+				}
+				
+				System.out.println("Would you want to search depends on publishers? (y/n)");
+				while ((need_publisher = in.readLine()) == null || !(need_publisher.equals("y") || need_publisher.equals("n")));
+				if (need_publisher.equals("y")) {
+					System.out.println("Please enter the publisher's name:");
+					while ((publisher_name = in.readLine()) == null);
+				}
+				
+				System.out.println("Would you want to search depends on title? (y/n)");
+				while ((need_title = in.readLine()) == null || !(need_title.equals("y") || need_title.equals("n")));
+				if (need_title.equals("y")) {
+					System.out.println("Please enter the title words:");
+					while ((title = in.readLine()) == null);
+				}
+				
+				if (need_author.equals("n") && need_publisher.equals("n") && need_title.equals("n")) {
+					System.out.println("Please enter the subject:");
+					while ((subject = in.readLine()) == null);
+				} else {
+					System.out.println("Would you want to search depends on subject? (y/n)");
+					while ((need_subject = in.readLine()) == null || !(need_subject.equals("y") || need_subject.equalsIgnoreCase("n")));
+					if (need_subject.equals("y")) {
+						System.out.println("Please enter the subject:");
+						while ((subject = in.readLine()) == null);
+					}
+				}
+				
+				while (true) {
+					System.out.println("Which way you want to order the results:");
+					System.out.println("1. by year");
+					System.out.println("2. by the average numerical score of the feedbacks");
+					System.out.println("3. by the average numerical score of the trusted user feedbacks");
+					System.out.println("Enter your choice: (1/2/3)");
+					while ((order = in.readLine()) == null);
+					try {
+						c = Integer.parseInt(order);
+					} catch (Exception e) {
+						continue;
+					}
+					if (c < 1 || c > 3) continue;
+					break;
+				}
+				
+				Book.find(need_author, author_name, need_publisher, publisher_name, need_title, title, need_subject, subject, c);
 				break;
 			case USEFUL_FEEDBACK:
 				break;
