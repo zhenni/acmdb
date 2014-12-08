@@ -49,67 +49,69 @@ public class UserInterface {
 				
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 				
-				displayMenu(authority);
-				while ((choice = in.readLine()) == null);
-				try {
-					c = Integer.parseInt(choice);
-				} catch (Exception e) {
-					continue;
-				}
-				
-				if (c < 1 || c > CHOICES) continue;
-				
-				if (c == 1) {
-					System.out.println("please enter your query below:");
-					while ((sql = in.readLine()) == null)
-						System.out.println(sql);
-					ResultSet rs = stmt.executeQuery(sql);
-					ResultSetMetaData rsmd = rs.getMetaData();
-					int numCols = rsmd.getColumnCount();
-					while (rs.next()) {
-						for (int i = 1; i <= numCols; ++i)
-							System.out.print(rs.getString(i) + "  ");
-						System.out.println("");
-					}
-					System.out.println(" ");
-					rs.close();
-				}
-				else if (c==2){
-					System.out.println("please enter your operation below:");
-					while ((sql = in.readLine()) == null)
-						System.out.println(sql);
-					int res = stmt.executeUpdate(sql);
-					if (res != -1) {
-						System.out.println("Update suscess"); 
-					}
-				}
-				else if (c == 3){
-					Driver.clearTables();
-				}
-				else if (c == 4){
-					displayFuncMenu(authority);
-					String funcChoice;
-					while ((funcChoice = in.readLine()) == null);
-					int func;
+				while (true) {
+					displayMenu(authority);
+					while ((choice = in.readLine()) == null);
 					try {
-						func = Integer.parseInt(funcChoice);
+						c = Integer.parseInt(choice);
 					} catch (Exception e) {
 						continue;
 					}
-					int num = FUNCS_USER;
-					if (BookStore.isManager(authority)) num = FUNCS_ADMIN;
-					if (func > num) 
-						System.out.println("out of the range");
-					else handleFunctionality(func);
-				}
-				else if (c == 5) {
-					BookStore.logout();
-					continue;
-				}
-				else {//c == 6
-					System.out.println("Welcome to the next visit :D");
-					stmt.close();
-					break;
+					
+					if (c < 1 || c > CHOICES) continue;
+					
+					if (c == 1) {
+						System.out.println("please enter your query below:");
+						while ((sql = in.readLine()) == null)
+							System.out.println(sql);
+						ResultSet rs = stmt.executeQuery(sql);
+						ResultSetMetaData rsmd = rs.getMetaData();
+						int numCols = rsmd.getColumnCount();
+						while (rs.next()) {
+							for (int i = 1; i <= numCols; ++i)
+								System.out.print(rs.getString(i) + "  ");
+							System.out.println("");
+						}
+						System.out.println(" ");
+						rs.close();
+					}
+					else if (c==2){
+						System.out.println("please enter your operation below:");
+						while ((sql = in.readLine()) == null)
+							System.out.println(sql);
+						int res = stmt.executeUpdate(sql);
+						if (res != -1) {
+							System.out.println("Update suscess"); 
+						}
+					}
+					else if (c == 3){
+						Driver.clearTables();
+					}
+					else if (c == 4){
+						displayFuncMenu(authority);
+						String funcChoice;
+						while ((funcChoice = in.readLine()) == null);
+						int func;
+						try {
+							func = Integer.parseInt(funcChoice);
+						} catch (Exception e) {
+							continue;
+						}
+						int num = FUNCS_USER;
+						if (BookStore.isManager(authority)) num = FUNCS_ADMIN;
+						if (func > num) 
+							System.out.println("out of the range");
+						else handleFunctionality(func);
+					}
+					else if (c == 5) {
+						BookStore.logout();
+						break;
+					}
+					else {//c == 6
+						System.out.println("Welcome to the next visit :D");
+						stmt.close();
+						return;
+					}
 				}
 			}
 		} catch (Exception e) {
