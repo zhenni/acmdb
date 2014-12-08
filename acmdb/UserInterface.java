@@ -253,7 +253,7 @@ public class UserInterface {
 					System.out.println("Ordering successed.");
 				else System.out.println("Operation failed.");
 				
-				Book.giveSuggestBooks(isbn);
+				Book.giveSuggestBooks(User.u_id, isbn);
 				
 				break;
 			case NEWBOOK:
@@ -522,7 +522,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (Book.find(author_name, publisher_name, title, subject, c) == -1)
+				if (Book.find(User.u_id, author_name, publisher_name, title, subject, c) == -1)
 					System.out.println("Operation failed.");
 				break;
 				
@@ -554,15 +554,49 @@ public class UserInterface {
 				System.out.println("Please enter the login name of the other author:");
 				while ((author2 = in.readLine()) == null);
 				
-				Book.giveSeparationDegree(author1, author2);
-				
+				try {
+					Book.giveSeparationDegree(author1, author2);
+				} catch (Exception e) {
+					System.out.println("Operation failed.");
+				}
 				break;
 			case STATISTICS:
-				BookStore.displayStatistics();
+				int m;
+				String time1, time2;
+				
+				while (true) {
+					System.out.println("Please enter the number of top items you want to see:");
+					while ((st = in.readLine()) == null);
+					try {
+						m = Integer.parseInt(st);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				System.out.println("Please enter the start date of the statistics:");
+				// TODO enter the date, save into time1
+				
+				System.out.println("Please enter the end date of the statistics:");
+				// TODO save into time2
+				
+				BookStore.displayStatistics(m, time1, time2);
 				
 				break;
 			case AWARDS:
-				BookStore.displayAwardedUsers();
+				while (true) {
+					System.out.println("Please enter the number of top items you want to see:");
+					while ((st = in.readLine()) == null);
+					try {
+						m = Integer.parseInt(st);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				BookStore.displayAwardedUsers(m);
 				
 				break;
 			default:

@@ -87,11 +87,11 @@ public class Driver {
 			+ "score INTEGER, "
 			+ "u_id INTEGER, "
 			+ "isbn CHAR(30),"
-			+ "u2_id INTEGER, "
-			+ "PRIMARY KEY (u_id, isbn, u2_id), "
+			+ "u_id2 INTEGER, "
+			+ "PRIMARY KEY (u_id, isbn, u_id2), "
 			+ "FOREIGN KEY (u_id) REFERENCES user(u_id), "
 			+ "FOREIGN KEY (isbn) REFERENCES book(isbn),"
-			+ "FOREIGN KEY (u2_id) REFERENCES user(u_id) "
+			+ "FOREIGN KEY (u_id2) REFERENCES user(u_id) "
 			+ ");";
 		Tables.create(tableNames[8], sql);
 	}
@@ -119,7 +119,7 @@ public class Driver {
 			
 			createTables();
 			
-			User.newUser("root", "root", "root", null, null);
+			User.newUser("root", "root", "root", "", "");
 			
 			UserInterface.run();
 		} catch (Exception e) {
