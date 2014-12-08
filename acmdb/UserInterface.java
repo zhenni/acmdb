@@ -153,10 +153,9 @@ public class UserInterface {
 	public static final int TRUST = 7;
 	public static final int BROWSING = 8;
 	public static final int USEFUL_FEEDBACK = 9;
-	public static final int SUGGESTION = 10;
-	public static final int DEGREE = 11;
-	public static final int STATISTICS = 12;
-	public static final int AWARDS = 13;
+	public static final int DEGREE = 10;
+	public static final int STATISTICS = 11;
+	public static final int AWARDS = 12;
 	
 	public static void displayFuncMenu(int authority) {	
 		System.out.println("1.  Registration");
@@ -248,9 +247,14 @@ public class UserInterface {
 					break;
 				}
 				
+				// TODO
+				
 				if (Order.order(User.u_id, isbn, n))
 					System.out.println("Ordering successed.");
 				else System.out.println("Operation failed.");
+				
+				Book.giveSuggestBooks(isbn);
+				
 				break;
 			case NEWBOOK:
 				if (!BookStore.isManager(BookStore.authority))
@@ -328,7 +332,7 @@ public class UserInterface {
 					System.out.println("Please enter the name of the author " + i);
 					while ((author_name[i] = in.readLine()) == null);
 					
-					if (Author.add(author_name[i]) == -1)
+					if (Author.newAuthor(author_name[i]) == -1)
 						System.out.println("Author added failed.");
 				}
 				
@@ -359,10 +363,10 @@ public class UserInterface {
 				break;
 			case FEEDBACK:
 				int score;
-				String comment;
+				String comment = null, date = null;
 				
-				System.out.println("Please enter the name of the book you want to give feedback:");
-				while ((name = in.readLine()) == null);
+				System.out.println("Please enter the isbn of the book you want to give feedback:");
+				while ((isbn = in.readLine()) == null);
 				
 				if (Book.haveGivenFeedback(name, User.u_id)) {
 					System.out.println("You have already given a feedback to this book.");
@@ -377,6 +381,11 @@ public class UserInterface {
 					} catch (Exception e) {
 						continue;
 					}
+					
+					if (score < 0 || score > 10) {
+						System.out.println("Score out of range.");
+						continue;
+					}
 					break;
 				}
 				
@@ -389,12 +398,70 @@ public class UserInterface {
 				
 				if (st.equals("y")) {
 					System.out.println("Please enter your short text:");
+					while ((comment = in.readLine()) == null);
 				}
+				
+				// TODO with input DATE
+				
+				if (Book.giveFeedback(isbn, User.u_id, score, comment, date) != -1) {
+					System.out.println("Given comments successed.");
+				} else System.out.println("Operation failed.");
 				
 				break;
 			case USEFULNESS_RATING:
+				
+				System.out.println("Please enter the isbn of the book of the feedback you want to assess:");
+				while ((isbn = in.readLine()) == null);
+				
+				System.out.println("Please enter the login name of the user of the feedback you want to assess:");
+				while ((name = in.readLine()) == null);
+				
+				String u2_id = User.getUserId(name);
+				
+				while (true) {
+					System.out.println("Please give your numerical score(0 = 'userless', 1 = 'useful', 2 = 'very useful'):");
+					while ((st = in.readLine()) == null);
+					try {
+						score = Integer.parseInt(st);
+					} catch (Exception e) {
+						continue;
+					}
+					
+					if (score < 0 || score > 2) continue;
+					break;
+				}
+				
+				if (Book.usefulnessRating(User.u_id, isbn, u2_id, score))
+					System.out.println("Feedback assessing successed.");
+				else System.out.println("Operation failed.");
+				
 				break;
 			case TRUST:
+				int trust;
+				
+				System.out.println("Please enter the login name of the user that you want to trust or not trust:");
+				while ((name = in.readLine()) == null);
+				
+				u2_id = User.getUserId(name);
+				
+				while (true) {
+					System.out.println("Do you want to trust or untrust this user? (t/u)");
+					while ((st = in.readLine()) == null);
+					
+					if (st.equals("t")) {
+						trust = 1;
+					} else
+					if (st.equals("u")) {
+						trust = 0;
+					} else
+						continue;
+					break;
+				}
+				
+				if (User.setTrustOrNot(User.u_id, u2_id, trust))
+					System.out.println("Changes done.");
+				else System.out.println("Operation failed.");
+				
 				break;
 			case BROWSING:
 				String need_author = null, need_publisher = null, need_title = null, need_subject = null;
@@ -453,10 +520,8 @@ public class UserInterface {
 				if (Book.find(author_name, publisher_name, title, subject, c) == -1)
 					System.out.println("Operation failed.");
 				break;
-			case USEFUL_FEEDBACK:
-				String isbn, st;
-				int n;
 				
+			case USEFUL_FEEDBACK:
 				System.out.println("Enter the isbn of the book you want to ask:");
 				while ((isbn = in.readLine()) == null);
 				
@@ -474,9 +539,10 @@ public class UserInterface {
 				if (Book.displayUsefulFeedback(isbn, c) == -1)
 					System.out.println("Operation failed.");
 				break;
-			case SUGGESTION:
-				break;
+					
 			case DEGREE:
+				
+				
 				break;
 			case STATISTICS:
 				break;
