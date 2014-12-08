@@ -27,19 +27,24 @@ public class Order{
 		sql = "SELECT copy_num FROM book WHERE isbn = \'" + isbn + "\'";
 	
 		int book_copies = Integer.parseInt(getQueryWithOneResult(sql));
-		if(book_copies >= copy_num) {//FIXME there will be negative copy_num after the update below;
-			System.out.println("There are not enough copies of the book with " + isbn + ". Only " + copy_num + " copies exist, but you order " + copy_num);
+		if(book_copies < copy_num) {
+			System.out.println("There are not enough copies of the book with " + isbn + ". Only " + book_copies + " copies exist, but you order " + copy_num);
 			return -1;
 		}
 
 		
 		sql = "INSERT INTO orders(time, copy_num, u_id, isbn) VALUES (\'"+time+"\', \'"+copy_num+"\', \'"+u_id+"\', \'"+isbn+"\')";
 		res = executeUpdate(sql);
-		if (res == -1) return -1;
+		if (res == -1) {
+			return -1;
+		}
 		
 		//update the copy_num in book table
 		sql = "UPDATE book SET copy_num = copy_num - \'"+ copy_num + "\' WHERE isbn = \'"+isbn+"\'";
 		res = executeUpdate(sql);
+		if (res == -1){
+			//FIXME drop the record from the orders
+		}
 		return res;
 	}
 	
