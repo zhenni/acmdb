@@ -16,7 +16,7 @@ public class Connector {
 		 	String userName = "acmdbu13";
 	   		String password = "ur3d9k79";
 	        String url = "jdbc:mysql://georgia.eng.utah.edu/acmdb13";
-		        Class.forName ("com.mysql.jdbc.Driver").newInstance ();
+		        Class.forName ("com.mysql.jdbc.Driver").newInstance();
         		con = DriverManager.getConnection (url, userName, password);
 
 			//DriverManager.registerDriver (new oracle.jdbc.driver.OracleDriver());
