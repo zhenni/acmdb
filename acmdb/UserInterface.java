@@ -73,7 +73,7 @@ public class UserInterface {
 				}
 				else if (c==2){
 					System.out.println("please enter your operation below:");
-					while ((sql = in.readLine()) == null && sql.length() == 0)
+					while ((sql = in.readLine()) == null)
 						System.out.println(sql);
 					int res = stmt.executeUpdate(sql);
 					if (res != -1) {
@@ -86,7 +86,7 @@ public class UserInterface {
 				else if (c == 4){
 					displayFuncMenu(authority);
 					String funcChoice;
-					while ((funcChoice = in.readLine()) == null && funcChoice.length() == 0);
+					while ((funcChoice = in.readLine()) == null);
 					int func;
 					try {
 						func = Integer.parseInt(funcChoice);
@@ -204,11 +204,11 @@ public class UserInterface {
 				String login_name, password, password2, name, address, phone_num;
 				
 				System.out.println("Please enter a login_name:");
-				while ((login_name = in.readLine()) == null && login_name.length() == 0);
+				while ((login_name = in.readLine()) == null);
 				
 				while (true) {
 					System.out.println("Please enter a password:");
-					while ((password = in.readLine()) == null && password.length() == 0);
+					while ((password = in.readLine()) == null);
 					System.out.println("Please enter the password again:");
 					while ((password2 = in.readLine()) == null);
 					
@@ -217,13 +217,13 @@ public class UserInterface {
 				}
 				
 				System.out.println("Please enter a name:");
-    		 	while ((name = in.readLine()) == null && name.length() == 0);
+    		 	while ((name = in.readLine()) == null);
     		 	
     		 	System.out.println("Please enter a address:");
-    		 	while ((address = in.readLine()) == null && address.length() == 0);
+    		 	while ((address = in.readLine()) == null);
     		 	
     		 	System.out.println("Please enter a phone_num:");
-    		 	while ((phone_num = in.readLine()) == null && phone_num.length() == 0);
+    		 	while ((phone_num = in.readLine()) == null);
     		 	
     		 	int res = User.newUser(login_name, password, name, address, phone_num);
 				if (res != -1) System.out.println("Success to registration"); else
@@ -264,7 +264,6 @@ public class UserInterface {
 				String publisher_name, st;
 				ArrayList<String> author_names = new ArrayList<String>();
 				int y, copy;
-				double pri;
 				
 				System.out.println("Please enter the isbn of the new book:");
 				while ((isbn = in.readLine()) == null);
@@ -298,7 +297,7 @@ public class UserInterface {
 					System.out.println("Please enter the price of the new book:");
 					while ((price = in.readLine()) == null);
 					try {
-						pri = Double.parseDouble(price);
+						Double.parseDouble(price);
 					} catch (Exception e) {
 						continue;
 					}
@@ -338,7 +337,7 @@ public class UserInterface {
 						System.out.println("Author added failed.");
 				}
 				
-				if (Book.newBook(isbn, title, year, copy_num, price, format, subject, keywords, publisher_name, n, author_names) == -1)
+				if (Book.newBook(isbn, title, y, copy, price, format, subject, keywords, publisher_name, n, author_names) == -1)
 					System.out.println("New book added failed.");
 				
 				break;

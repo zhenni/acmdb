@@ -1,6 +1,5 @@
 package acmdb;
 
-import java.io.*;
 import java.sql.*;
 
 public class BookStore {
@@ -26,10 +25,6 @@ public class BookStore {
 	}
 	
 	public static boolean login(String loginName, String password) {
-		/*
-		 * TODO
-		 * how to divide root and user
-		 */
 		String sql = null;
 		ResultSet res = null;
 		try {
@@ -37,7 +32,7 @@ public class BookStore {
 				+ "WHERE (U.login_name = '" + loginName + "' AND U.password = '" + password + "')";
 			res = stmt.executeQuery(sql);
 			if (res.next()) {
-				authority = USER;
+				if (loginName.equals("admin")) authority = ADMIN; else authority = USER;
 				
 				User.u_id = res.getInt(1);
 				User.name = res.getString(2);

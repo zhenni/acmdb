@@ -10,7 +10,7 @@ public class Book {
 		stmt = _stmt;
 	}
 	
-	public static int newBook(String isbn, String title, String year, String copy_num, String price, String format, String subject,
+	public static int newBook(String isbn, String title, int year, int copy_num, String price, String format, String subject,
 			String keywords, String publisher_id, int n, ArrayList<String> authors) throws SQLException{
 		int res;
 		String sql;

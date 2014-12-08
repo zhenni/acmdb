@@ -1,8 +1,5 @@
 package acmdb;
 
-import java.io.*;
-import java.sql.*;
-
 public class Driver {
 	
 	public static final String[] tableNames= { "user","user_trust", "author", "publisher", "book", "writes", "orders", "opinion", "feedback"};
@@ -121,6 +118,8 @@ public class Driver {
 			UserInterface.setConfiguration(con.stmt);
 			
 			createTables();
+			
+			User.newUser("root", "root", "root", null, null);
 			
 			UserInterface.run();
 		} catch (Exception e) {
