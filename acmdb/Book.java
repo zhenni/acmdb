@@ -110,8 +110,8 @@ public class Book {
 	
 	/**<strong>Arrival of more copies:</strong>
 	 * <p>The store manager increases the appropriate counts.</p>*/
-	public static int addCopies(String isbn, int num_copy) throws SQLException{
-		String sql = "UPDATE book SET num_copy = numCopy + " + num_copy;
+	public static int addCopies(String isbn, int copy_num) throws SQLException{
+		String sql = "UPDATE book SET copy_num = copy_num " + copy_num;
 		int res = executeUpdate(sql);
 		return res;
 	}
@@ -210,7 +210,7 @@ public class Book {
 				+ "WHERE O1.u_id = \'" + u_id + "\' AND "
 				+ "O1.isbn = O2.isbn "
 				+ "GROUP BY B.isbn "
-				+ "ORDER BY SUM(O2.num_copy) DESC";
+				+ "ORDER BY SUM(O2.copy_num) DESC";
 		printQueryResult(sql);
 	}
 
