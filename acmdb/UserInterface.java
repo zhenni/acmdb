@@ -3,7 +3,6 @@ package acmdb;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -385,8 +384,7 @@ public class UserInterface {
 				break;
 			case FEEDBACK:
 				int score;
-				String comment = null, time;
-				java.sql.Timestamp stamp;
+				String comment = null;
 				
 				
 				System.out.println("Please enter the isbn of the book you want to give feedback:");
@@ -631,7 +629,7 @@ public class UserInterface {
 						DateFormat dateFormat;
 						dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
 						dateFormat.setLenient(false);
-						java.util.Date timeDate = dateFormat.parse(time1);
+						java.util.Date timeDate = dateFormat.parse(time2);
 						stamp2 = new java.sql.Timestamp(timeDate.getTime());
 					} catch (Exception e) {
 						continue;
