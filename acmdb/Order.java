@@ -11,7 +11,7 @@ public class Order{
 		stmt = _stmt;
 	}
 	
-	public static int order(String date, String u_id, String isbn, int copy_num) throws Exception{
+	public static int order(int u_id, String isbn, int copy_num, String date) throws Exception{
 		String sql;
 		int res;
 		

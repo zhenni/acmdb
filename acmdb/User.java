@@ -12,7 +12,7 @@ public class User {
 	
 	// the information of the entered user
 	// modified in BookStore.java
-	public static String u_id = null;
+	public static int u_id = -1;
 	public static String name = null;
 	public static String login_name = null;
 	public static String password = null;
@@ -32,9 +32,17 @@ public class User {
 		return res;
 	}
 
-	public static String getUserId(String login_name) throws SQLException{
+	public static int getUserId(String login_name) throws Exception{
 		String sql = "SELECT u_id FROM user WHERE user.login_name = \'"+login_name+"\'";
-		return getQueryWithOneResult(sql);
+		return Integer.parseInt(getQueryWithOneResult(sql));
+	}
+	
+	public static int setTrustOrNot(int u_id1, int u_id2, int trust) throws SQLException{
+		String sql = "INSERT INTO user_trust (u_id1, u_id2, is_trust) VALUES (\'"
+			+ u_id1 + "\', \'"
+			+ u_id2 + "\', \'"
+			+ trust + "\')";
+		return executeUpdate(sql);
 	}
 	
 	public static String getQueryWithOneResult(String sql) throws SQLException {

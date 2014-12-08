@@ -57,8 +57,8 @@ public class testdriver2 {
 	            		 while ((cname = in.readLine()) == null && cname.length() == 0);
 	            		 System.out.println("please enter a dname:");
 	            		 while ((dname = in.readLine()) == null && dname.length() == 0);
-	            		 Course course=new Course();
-	            		 System.out.println(course.getCourse(cname, dname, con.stmt));
+	            		// Course course=new Course();
+	            		// System.out.println(course.getCourse(cname, dname, con.stmt));
 	            	 }
 	            	 else if (c==2)
 	            	 {	 

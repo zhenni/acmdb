@@ -1,16 +1,17 @@
 package acmdb;
 
 import java.sql.*;
+import java.util.*;
 
 public class Book {
 	private static Statement stmt;
 	
-	public Book(Statement _stmt) throws SQLException {
+	public static void setConfiguration(Statement _stmt) {
 		stmt = _stmt;
 	}
 	
 	public static int newBook(String isbn, String title, String year, String copy_num, String price, String format, String subject,
-			String keywords, String publisher_id, int n, String[] authors) throws SQLException{
+			String keywords, String publisher_id, int n, ArrayList<String> authors) throws SQLException{
 		int res;
 		String sql;
 		
@@ -29,7 +30,7 @@ public class Book {
 		if(res == -1) return -1;
 		
 		for (int i = 0; i < n; ++i){
-			sql = "INSERT writes(isbn, author_id) VALUES (\'"+isbn+"\', \'"+authors[i]+"\')";
+			sql = "INSERT writes(isbn, author_id) VALUES (\'"+isbn+"\', \'"+authors.get(i)+"\')";
 			res = executeUpdate(sql);
 			if (res == -1) return -1;
 		}
@@ -106,7 +107,7 @@ public class Book {
 		return res;
 	}
 
-	public static int giveFeedback(String isbn, String u_id, int score, String comment, String date) throws SQLException{
+	public static int giveFeedback(String isbn, int u_id, int score, String comment, String date) throws SQLException{
 		String sql = "INSERT INTO opinion(isbn, u_id, score, comment, date) VALUES (\'" 
 			+ isbn + "\', \'"
 			+ u_id + "\', \'"
@@ -116,14 +117,14 @@ public class Book {
 		return executeUpdate(sql);
 	}
 
-	public static boolean haveGivenFeedback(String isbn, String u_id) throws Exception{
+	public static boolean haveGivenFeedback(String isbn, int u_id) throws Exception{
 		String sql = "SELECT COUNT(*) FROM opinion WHERE isbn = \'"+isbn+"\' AND u_id = \'"+ u_id + "\'";
 		int num = Integer.parseInt(getQueryWithOneResult(sql));
 		if(num == 0) return false;
 		return true;
 	}
 
-	public static int usefulnessRating(String u_id, String isbn, String u_id2, int score) throws SQLException{
+	public static int usefulnessRating(int u_id, String isbn, int u_id2, int score) throws SQLException{
 		String sql = "INSERT INTO feedback(u_id, isbn, u_id2, score) VALUES (\'"
 			+ u_id + "\', \'"
 			+ isbn + "\', \'"
@@ -131,15 +132,6 @@ public class Book {
 			+ score + "\')";
 		return executeUpdate(sql);
 	}
-
-	public static int setTrustOrNot(String u_id1, String u_id2, int trust) throws SQLException{
-		String sql = "INSERT INTO user_trust (u_id1, u_id2, is_trust) VALUES (\'"
-			+ u_id1 + "\', \'"
-			+ u_id2 + "\', \'"
-			+ trust + "\')";
-		return executeUpdate(sql);
-	}
-
 
 	public static void printQueryResult(String sql) throws SQLException{
 		System.err.println("DEBUG CHECK : "+ sql);
@@ -177,6 +169,16 @@ public class Book {
 	public static int executeUpdate(String sql) throws SQLException{
 		System.err.println("DEBUG CHECK : " + sql);
 		return stmt.executeUpdate(sql);
+	}
+
+	public static void giveSeparationDegree(String author1, String author2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void giveSuggestBooks(String isbn) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

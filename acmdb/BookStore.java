@@ -71,4 +71,14 @@ public class BookStore {
 		User.address = null;
 		User.phone_num = null;
 	}
+
+	public static void displayStatistics() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void displayAwardedUsers() {
+		// TODO Auto-generated method stub
+		
+	}
 }

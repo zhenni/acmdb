@@ -2,6 +2,7 @@ package acmdb;
 
 import java.io.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class UserInterface {
 	
@@ -230,7 +231,7 @@ public class UserInterface {
     		 	
     		 	break;
 			case ORDERING:
-				String isbn, num, date;
+				String isbn, num, date = null;
 				int n;
 				
 				System.out.println("Please enter the isbn of the book you want to order:");
@@ -248,8 +249,7 @@ public class UserInterface {
 				}
 				
 				// TODO
-				
-				if (Order.order(User.u_id, isbn, n, date))
+				if (Order.order(User.u_id, isbn, n, date) != -1)
 					System.out.println("Ordering successed.");
 				else System.out.println("Operation failed.");
 				
@@ -262,7 +262,7 @@ public class UserInterface {
 				
 				String title, year, copy_num, price, format, subject, keywords;
 				String publisher_name, st;
-				String[] author_names;
+				ArrayList<String> author_names = new ArrayList<String>();
 				int y, copy;
 				double pri;
 				
@@ -330,13 +330,15 @@ public class UserInterface {
 				
 				for (int i = 1; i <= n; ++i) {
 					System.out.println("Please enter the name of the author " + i);
-					while ((author_names[i] = in.readLine()) == null);
+					String tmp;
+					while ((tmp = in.readLine()) == null);
+					author_names.add(tmp);
 					
-					if (Author.newAuthor(author_names[i]) == -1)
+					if (Author.newAuthor(tmp) == -1)
 						System.out.println("Author added failed.");
 				}
 				
-				if (Book.newBook(isbn, title, year, copy_num, price, format, subject, keywords, publisher_name, n, author_name) == -1)
+				if (Book.newBook(isbn, title, year, copy_num, price, format, subject, keywords, publisher_name, n, author_names) == -1)
 					System.out.println("New book added failed.");
 				
 				break;
@@ -369,7 +371,7 @@ public class UserInterface {
 				System.out.println("Please enter the isbn of the book you want to give feedback:");
 				while ((isbn = in.readLine()) == null);
 				
-				if (Book.haveGivenFeedback(name, User.u_id)) {
+				if (Book.haveGivenFeedback(isbn, User.u_id)) {
 					System.out.println("You have already given a feedback to this book.");
 					break;
 				}
@@ -432,7 +434,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (Book.usefulnessRating(User.u_id, isbn, u2_id, score))
+				if (Book.usefulnessRating(User.u_id, isbn, u2_id, score) != -1)
 					System.out.println("Feedback assessing successed.");
 				else System.out.println("Operation failed.");
 				
@@ -459,7 +461,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (User.setTrustOrNot(User.u_id, u2_id, trust))
+				if (User.setTrustOrNot(User.u_id, u2_id, trust) != -1)
 					System.out.println("Changes done.");
 				else System.out.println("Operation failed.");
 				
