@@ -333,8 +333,10 @@ public class UserInterface {
 					while ((tmp = in.readLine()) == null);
 					author_names.add(tmp);
 					
+					/*
 					if (Author.newAuthor(tmp) == -1)
 						System.out.println("Author added failed.");
+					*/
 				}
 				
 				if (Book.newBook(isbn, title, y, copy, price, format, subject, keywords, publisher_name, n, author_names) == -1)

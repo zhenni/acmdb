@@ -25,6 +25,7 @@ public class Driver {
 			+ ");";
 		Tables.create(tableNames[1], sql);
 		
+		/*
 		sql = "CREATE TABLE IF NOT EXISTS author ( "
 			+ "author_id CHAR(30) NOT NULL PRIMARY KEY, "
 			+ "name CHAR(30) UNIQUE"
@@ -36,6 +37,7 @@ public class Driver {
 			+ "name CHAR(30) "
 			+ ");";
 		Tables.create(tableNames[3], sql);
+		*/
 		
 		sql = "CREATE TABLE IF NOT EXISTS book ( "
 			+ "isbn CHAR(30) PRIMARY KEY, "
