@@ -201,30 +201,196 @@ public class UserInterface {
 			
 			switch (op) {
 			case REGISTRATION:
-				String login_name, password, name, address, phone_num;
+				String login_name, password, password2, name, address, phone_num;
 				
-				System.out.println("please enter a login_name:");
+				System.out.println("Please enter a login_name:");
 				while ((login_name = in.readLine()) == null && login_name.length() == 0);
-				System.out.println("please enter a password:");
-				while ((password = in.readLine()) == null && password.length() == 0);
-				System.out.println("please enter a name:");
+				
+				while (true) {
+					System.out.println("Please enter a password:");
+					while ((password = in.readLine()) == null && password.length() == 0);
+					System.out.println("Please enter the password again:");
+					while ((password2 = in.readLine()) == null);
+					
+					if (password.equals(password2)) break; else
+						System.out.println("Password not match, please enter again.");
+				}
+				
+				System.out.println("Please enter a name:");
     		 	while ((name = in.readLine()) == null && name.length() == 0);
-    		 	System.out.println("please enter a address:");
+    		 	
+    		 	System.out.println("Please enter a address:");
     		 	while ((address = in.readLine()) == null && address.length() == 0);
-    		 	System.out.println("please enter a phone_num:");
+    		 	
+    		 	System.out.println("Please enter a phone_num:");
     		 	while ((phone_num = in.readLine()) == null && phone_num.length() == 0);
     		 	
     		 	int res = User.newUser(login_name, password, name, address, phone_num);
-				if (res != -1) System.out.println("success to registration");
+				if (res != -1) System.out.println("Success to registration"); else
+					System.out.println("Resgistration failed");
     		 	
     		 	break;
 			case ORDERING:
+				String isbn, num;
+				int n;
+				
+				System.out.println("Please enter the isbn of the book you want to order:");
+				while ((isbn = in.readLine()) == null);
+				
+				while (true) {
+					System.out.println("Please enter the number of copies you want to order for this book:");
+					while ((num = in.readLine()) == null);
+					try {
+						n = Integer.parseInt(num);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				if (Order.order(User.u_id, isbn, n))
+					System.out.println("Ordering successed.");
+				else System.out.println("Operation failed.");
 				break;
 			case NEWBOOK:
+				if (!BookStore.isManager(BookStore.authority))
+					System.out.println("Insufficient user permissions.");
+				
+				String title, year, copy_num, price, format, subject, keywords;
+				String publisher_id, st;
+				String[] author_name;
+				int y, copy, pub;
+				double pri;
+				
+				System.out.println("Please enter the isbn of the new book:");
+				while ((isbn = in.readLine()) == null);
+				
+				System.out.println("Please enter the title of the new book:");
+				while ((title = in.readLine()) == null);
+				
+				while (true) {
+					System.out.println("Please enter the year of the publication of the new book:");
+					while ((year = in.readLine()) == null);
+					try {
+						y = Integer.parseInt(year);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				while (true) {
+					System.out.println("Please enter the number of copies arrived of the new book:");
+					while ((copy_num = in.readLine()) == null);
+					try {
+						copy = Integer.parseInt(copy_num);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				while (true) {
+					System.out.println("Please enter the price of the new book:");
+					while ((price = in.readLine()) == null);
+					try {
+						pri = Double.parseDouble(price);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				System.out.println("Please enter the format of the new book:");
+				while ((format = in.readLine()) == null);
+				
+				System.out.println("Please enter the subject of the new book:");
+				while ((subject = in.readLine()) == null);
+				
+				System.out.println("Please enter the keywords of the new book:");
+				while ((keywords = in.readLine()) == null);
+				
+				System.out.println("Please enter the publisher id of the new book:");
+				while ((publisher_id = in.readLine()) == null);
+				
+				while (true) {
+					System.out.println("Please enter the number of the authors of the new book:");
+					while ((st = in.readLine()) == null);
+					try {
+						n = Integer.parseInt(st);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				for (int i = 1; i <= n; ++i) {
+					System.out.println("Please enter the name of the author " + i);
+					while ((author_name[i] = in.readLine()) == null);
+					
+					if (Author.add(author_name[i]) == -1)
+						System.out.println("Author added failed.");
+				}
+				
+				if (Book.newBook(isbn, title, year, copy_num, price, format, subject, keywords, publisher_id, n, author_name) == -1)
+					System.out.println("New book added failed.");
+				
 				break;
 			case ADDCOPIES:
+				if (!BookStore.isManager(BookStore.authority))
+					System.out.println("Insufficient user permissions.");
+				
+				System.out.println("Please enter the isbn of the arrived book:");
+				while ((isbn = in.readLine()) == null);
+				
+				while (true) {
+					System.out.println("Please enter the number of added copies:");
+					while ((num = in.readLine()) == null);
+					try {
+						n = Integer.parseInt(num);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				Book.addCopies(isbn, n);
+				
 				break;
 			case FEEDBACK:
+				int score;
+				String comment;
+				
+				System.out.println("Please enter the name of the book you want to give feedback:");
+				while ((name = in.readLine()) == null);
+				
+				if (Book.haveGivenFeedback(name, User.u_id)) {
+					System.out.println("You have already given a feedback to this book.");
+					break;
+				}
+				
+				while (true) {
+					System.out.println("Given your numerical score(0 = terrible, 10 = masterpiece):");
+					while ((st = in.readLine()) == null);
+					try {
+						score = Integer.parseInt(st);
+					} catch (Exception e) {
+						continue;
+					}
+					break;
+				}
+				
+				while (true) {
+					System.out.println("Would you want to give some additional short comments? (y/n)");
+					while ((st = in.readLine()) == null);
+					if (!st.equals("y") && !st.equals("n")) continue;
+					break;
+				}
+				
+				if (st.equals("y")) {
+					System.out.println("Please enter your short text:");
+				}
+				
 				break;
 			case USEFULNESS_RATING:
 				break;
@@ -284,7 +450,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (!Book.find(author_name, publisher_name, title, subject, c))
+				if (Book.find(author_name, publisher_name, title, subject, c) == -1)
 					System.out.println("Operation failed.");
 				break;
 			case USEFUL_FEEDBACK:
@@ -305,7 +471,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (!Book.displayUsefulFeedback(isbn, c))
+				if (Book.displayUsefulFeedback(isbn, c) == -1)
 					System.out.println("Operation failed.");
 				break;
 			case SUGGESTION:

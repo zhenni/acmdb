@@ -25,7 +25,7 @@ public class BookStore {
 		return false;
 	}
 	
-	public static boolean login(String username, String password) {
+	public static boolean login(String loginName, String password) {
 		/*
 		 * TODO
 		 * how to divide root and user
@@ -33,11 +33,19 @@ public class BookStore {
 		String sql = null;
 		ResultSet res = null;
 		try {
-			sql = "SELECT COUNT(*) FROM user U "
-				+ "WHERE (U.login_name = '" + username + "' AND U.password = '" + password + "')";
+			sql = "SELECT * FROM user U "
+				+ "WHERE (U.login_name = '" + loginName + "' AND U.password = '" + password + "')";
 			res = stmt.executeQuery(sql);
-			if (res.getInt(1) == 1) {
+			if (res.next()) {
 				authority = USER;
+				
+				User.u_id = res.getInt(1);
+				User.name = res.getString(2);
+				User.login_name = res.getString(3);
+				User.password = res.getString(4);
+				User.address = res.getString(5);
+				User.phone_num = res.getString(6);
+				
 				return true;
 			} else {
 				return false;
@@ -55,5 +63,12 @@ public class BookStore {
 	
 	public static void logout() {
 		authority = 0;
+		
+		User.u_id = -1;
+		User.name = null;
+		User.login_name = null;
+		User.password = null;
+		User.address = null;
+		User.phone_num = null;
 	}
 }

@@ -32,7 +32,7 @@ public class Driver {
 		
 		sql = "CREATE TABLE IF NOT EXISTS author ( "
 			+ "author_id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY, "
-			+ "name CHAR(30) "
+			+ "name CHAR(30) UNIQUE"
 			+ ");";
 		Tables.create(tableNames[2], sql);
 
