@@ -118,8 +118,8 @@ public class Driver {
 			UserInterface.setConfiguration(con.stmt);
 			
 			createTables();
-			
-			User.newUser("root", "root", "root", "", "");
+			if (!User.exists("root"))
+				User.newUser("root", "root", "root", "", "");
 			
 			UserInterface.run();
 		} catch (Exception e) {
