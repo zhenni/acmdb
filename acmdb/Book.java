@@ -245,6 +245,7 @@ public class Book {
 				System.out.print(rs.getString(i) + "  ");
 			System.out.println("");
 		}
+		if (row == 0) System.out.println("Empty set.");
 		System.out.println(" ");
 		rs.close();
 	}
