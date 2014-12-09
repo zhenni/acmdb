@@ -78,6 +78,7 @@ public class Order{
 				+ "WHERE O.u_id = \'" + u_id + "\'"
 						+ " AND O.isbn = \'" + isbn + "\'";
 		int cnt = Integer.parseInt(getQueryWithOneResult(sql));
+		System.err.println("orders " + cnt );
 		if (cnt < 1) return false;
 		return true;
 	}

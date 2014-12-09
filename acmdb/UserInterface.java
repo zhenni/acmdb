@@ -421,7 +421,7 @@ public class UserInterface {
 				System.out.println("Please enter the isbn of the book you want to give feedback:");
 				while ((isbn = in.readLine()) == null);
 				
-				if (Order.haveOrder(User.u_id, isbn)){
+				if (!Order.haveOrder(User.u_id, isbn)){
 					System.out.println("You have not order this book.");
 					break;
 				}
