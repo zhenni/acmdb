@@ -53,30 +53,47 @@ public class Book {
 		if (title == null) title = "";
 		if (subject == null) subject = "";
 		
-		String sql = "SELECT DISTINCT B.* " 
-				+ "FROM book B, writes W "
-				+ "WHERE "
-				+ "B.isbn = W.isbn AND "
-				+ "W.author_id like \'%" + author + "%\' AND " 
-				+ "B.publisher_id like \'%" + publisher + "%\' AND "
-				+ "B.title like \'%" + title + "%\' AND "
-				+ "B.subject like \'%" + subject + "%\' "
-				;
+		String sql = "";
 		
 		//by year
 		if (order == 1){
+			sql += ("SELECT DISTINCT B.* " 
+					+ "FROM book B, writes W "
+					+ "WHERE "
+					+ "B.isbn = W.isbn AND "
+					+ "W.author_id like \'%" + author + "%\' AND " 
+					+ "B.publisher_id like \'%" + publisher + "%\' AND "
+					+ "B.title like \'%" + title + "%\' AND "
+					+ "B.subject like \'%" + subject + "%\' ")
+					;
 			sql +=  ("ORDER BY B.year_of_publication");
 		}
 		//(b) by the average numerical score of the feedbacks
 		else if (order == 2){
-			sql += ("ORDER BY ("
-				+ "SELECT AVG(O.score) "
-				+ "FROM opinion O "
-				+ "WHERE O.isbn = B.isbn "
-				+ "GROUP BY B.isbn)");
+			sql += ("SELECT DISTINCT B.* " 
+					+ "FROM book B, writes W, opinion O"
+					+ "WHERE "
+					+ "B.isbn = W.isbn AND "
+					+ "W.author_id like \'%" + author + "%\' AND " 
+					+ "B.publisher_id like \'%" + publisher + "%\' AND "
+					+ "B.title like \'%" + title + "%\' AND "
+					+ "B.subject like \'%" + subject + "%\' AND "
+					+ "O.isbn = B.isbn "
+					+ "GROUP BY B.isbn"
+					+ "ORDER BY AVG(O.score) "
+					);
 		}
 		//(c) by the average numerical score of the trusted user feedbacks
 		else if(order == 3){
+			sql += ("SELECT DISTINCT B.* " 
+					+ "FROM book B, writes W "
+					+ "WHERE "
+					+ "B.isbn = W.isbn AND "
+					+ "W.author_id like \'%" + author + "%\' AND " 
+					+ "B.publisher_id like \'%" + publisher + "%\' AND "
+					+ "B.title like \'%" + title + "%\' AND "
+					+ "B.subject like \'%" + subject + "%\' ")
+					;
 			sql += ("ORDER BY("
 					+ "SELECT AVG(O.score) "
 					+ "FROM opinion O, user_trust T "
