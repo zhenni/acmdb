@@ -144,7 +144,8 @@ public class Book {
 				+ "WHERE O.isbn = \'" + isbn + "\' AND "
 						+ "O.u_id = U.u_id AND "
 						+ "O.u_id <> \'"+u_id + "\'";
-		printQueryResult(sql);
+		int row = printQueryResult(sql);
+		if (row == 0) return -1;
 		return 0;
 	}
 	
@@ -226,7 +227,7 @@ public class Book {
 
 	
 	
-	public static void printQueryResult(String sql) throws SQLException{
+	public static int printQueryResult(String sql) throws SQLException{
 		System.err.println("DEBUG CHECK : "+ sql);
 		ResultSet rs = stmt.executeQuery(sql);
 		ResultSetMetaData rsmd = rs.getMetaData();
@@ -248,6 +249,7 @@ public class Book {
 		if (row == 0) System.out.println("Empty set.");
 		System.out.println(" ");
 		rs.close();
+		return row;
 	}
 
 	public static String getQueryWithOneResult(String sql) throws SQLException {
