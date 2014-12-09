@@ -80,7 +80,7 @@ public class Book {
 					+ "B.subject like \'%" + subject + "%\' AND "
 					+ "O.isbn = B.isbn "
 					+ "GROUP BY B.isbn "
-					+ "ORDER BY AVG(O.score) "
+					+ "ORDER BY AVG(O.score) DESC"
 					);
 		}
 		//(c) by the average numerical score of the trusted user feedbacks
@@ -107,7 +107,7 @@ public class Book {
 		
 		int res = 0;
 		
-		printQueryResult(sql);
+		PrintResult.printQueryResult(sql);
 		
 		return res;
 	}
@@ -123,12 +123,12 @@ public class Book {
 		
 		String sql = "SELECT O.*, AVG(F.score) "
 				+ "FROM opinion O, feedback F "
-				+ "WHERE O.isbn = F.isbn AND O.u_id = F.u_id AND O.isbn = \'" + isbn + "\' "
-				+ "GROUP BY (O.u_id, O.isbn) "
+				+ "WHERE O.isbn = F.isbn AND O.u_id = F.u_id2 AND O.isbn = \'" + isbn + "\' "
+				+ "GROUP BY O.u_id, O.isbn "
 				+ "ORDER BY AVG(F.score) DESC";
 		
 		try {
-			printQueryResult(sql, n);
+			PrintResult.printQueryResult(sql, n);
 			res = 1;
 		} catch (Exception e) {
 			System.err.println(e);
@@ -174,7 +174,7 @@ public class Book {
 				+ "WHERE O.isbn = \'" + isbn + "\' AND "
 						+ "O.u_id = U.u_id AND "
 						+ "O.u_id <> \'"+u_id + "\'";
-		int row = printQueryResult(sql);
+		int row = PrintResult.printQueryResult(sql);
 		if (row == 0) return -1;
 		return 0;
 	}
@@ -275,9 +275,10 @@ public class Book {
 				+ "		O.isbn = B2.isbn "
 				+ "GROUP BY B2.isbn "
 				+ "ORDER BY SUM(O.copy_num) DESC";
-		printQueryResult(sql);
+		PrintResult.printQueryResult(sql);
 	}
 
+	/*
 	public static int printQueryResult(String sql) throws SQLException{
 		System.err.println("DEBUG CHECK : "+ sql);
 		ResultSet rs = stmt.executeQuery(sql);
@@ -325,6 +326,7 @@ public class Book {
 		rs.close();
 		return row;
 	}
+	*/
 
 	public static String getQueryWithOneResult(String sql) throws SQLException {
 		System.err.println("DEBUG CHECK : "+ sql);

@@ -47,7 +47,7 @@ public class User {
 	}
 	
 	public static int setTrustOrNot(int u_id1, int u_id2, int trust) throws SQLException{
-		String sql = "INSERT INTO user_trust (u_id1, u_id2, is_trust) VALUES (\'"
+		String sql = "REPLACE INTO user_trust (u_id1, u_id2, is_trust) VALUES (\'"
 			+ u_id1 + "\', \'"
 			+ u_id2 + "\', \'"
 			+ trust + "\')";

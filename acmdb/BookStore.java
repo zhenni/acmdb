@@ -80,7 +80,7 @@ public class BookStore {
 					+"GROUP BY isbn "
 					+"ORDER BY S DESC";
 		
-		printQueryResult(sql, m);
+		PrintResult.printQueryResult(sql, m);
 		
 		// the list of m most popular authors
 		System.out.println("The list of " + m + " most popular authors:");
@@ -92,7 +92,7 @@ public class BookStore {
 			+ "GROUP BY W.author_id "
 			+ "ORDER BY S DESC";
 		
-		printQueryResult(sql, m);
+		PrintResult.printQueryResult(sql, m);
 		
 		// the list of m most popular publishers
 		System.out.println("The list of " + m + " most popular publishers:");
@@ -104,7 +104,7 @@ public class BookStore {
 			+ "GROUP BY B.publisher_id "
 			+ "ORDER BY S DESC";
 		
-		printQueryResult(sql, m);
+		PrintResult.printQueryResult(sql, m);
 	}
 
 	public static void displayAwardedUsers(int m) throws SQLException {
@@ -116,9 +116,9 @@ public class BookStore {
 				+ "FROM user U, user_trust UT "
 				+ "WHERE U.u_id = UT.u_id2 "
 				+ "GROUP BY U.login_name "
-				+ "ORDER BY S";
+				+ "ORDER BY S DESC";
 		
-		printQueryResult(sql, m);
+		PrintResult.printQueryResult(sql, m);
 		
 		// the top m most 'useful' users(the userfulness score of a user is the average
 		// 'usefulness' of all of his/her feedbacks combined)
@@ -130,9 +130,10 @@ public class BookStore {
 			+ "GROUP BY U.login_name "
 			+ "ORDER BY AVG(F.score) DESC";
 		
-		printQueryResult(sql, m);
+		PrintResult.printQueryResult(sql, m);
 	}
 	
+	/*
 	public static void printQueryResult(String sql, int m) throws SQLException {
 		System.err.println("DEBUG CHECK : "+ sql);
 		
@@ -157,4 +158,5 @@ public class BookStore {
 		
 		res.close();
 	}
+	*/
 }
