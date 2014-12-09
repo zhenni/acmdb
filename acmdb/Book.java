@@ -71,7 +71,7 @@ public class Book {
 		//(b) by the average numerical score of the feedbacks
 		else if (order == 2){
 			sql += ("SELECT DISTINCT B.* " 
-					+ "FROM book B, writes W, opinion O"
+					+ "FROM book B, writes W, opinion O "
 					+ "WHERE "
 					+ "B.isbn = W.isbn AND "
 					+ "W.author_id like \'%" + author + "%\' AND " 
@@ -79,7 +79,7 @@ public class Book {
 					+ "B.title like \'%" + title + "%\' AND "
 					+ "B.subject like \'%" + subject + "%\' AND "
 					+ "O.isbn = B.isbn "
-					+ "GROUP BY B.isbn"
+					+ "GROUP BY B.isbn "
 					+ "ORDER BY AVG(O.score) "
 					);
 		}
