@@ -189,23 +189,37 @@ public class Book {
 	 * AND `A' and `B' are not 1-degree away at the same time.</p>
 	 * @throws SQLException */
 	public static void giveSeparationDegree(String author1, String author2) throws Exception {
+		String sql;
+		
+		sql = "SELECT COUNT(*) FROM writes WHERE author_id = \'" + author1 + "\'";
+		if (Integer.parseInt(getQueryWithOneResult(sql)) < 1){
+			System.out.println("The author1 you typed does not exist.");
+			return;
+		}
+		
+		sql = "SELECT COUNT(*) FROM writes WHERE author_id = \'" + author2 + "\'";
+		if (Integer.parseInt(getQueryWithOneResult(sql)) < 1){
+			System.out.println("The author2 you typed does not exist.");
+			return;
+		}
+		
 		if (author1.equals(author2)){
 			System.out.println("The 2 names of author are the same.");
 			return;
 		}
 		
-		String sql = "CREATE OR REPLACE VIEW degree AS"
-				+ "SELECT W1.author_id AS a1, W2.author_id AS a2, W1.isbn AS isbn "
+		sql = "CREATE OR REPLACE VIEW degree AS "
+				+ "SELECT W1.author_id AS a1, W2.author_id AS a2, W1.isbn AS sisbn "
 				+ "FROM writes W1, writes W2 "
-				+ "WHERE"
+				+ "WHERE "
 				+ "W1.isbn = W2.isbn AND "
-				+ "a1 <> a2 ";
+				+ "W1.author_id <>  W2.author_id";
 		if (executeUpdate(sql) == -1){
 			System.err.println("failed to create view");
 			return;
 		}
 		
-		sql = "SELECT COUNT(*) FROM degree"
+		sql = "SELECT COUNT(*) FROM degree "
 				+ "WHERE "
 				+ "a1 = \'" + author1 + "\' AND "
 				+ "a2 = \'" + author2 + "\'";
@@ -217,8 +231,7 @@ public class Book {
 	
 		sql =  "SELECT COUNT(*) "
 			+ "FROM degree D1, degree D2 "
-			+ "WHERE D1.isbn = D2.isbn AND "
-			+ "D1.a2 = D2.a1 AND "
+			+ "WHERE D1.a2 = D2.a1 AND "
 			+ "D1.a1 = \'" + author1 + "\' AND "
 			+ "D2.a2 = \'" + author2 + "\'";
 		
