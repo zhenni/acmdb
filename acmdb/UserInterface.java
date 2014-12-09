@@ -39,7 +39,7 @@ public class UserInterface {
 	public static void run() {
 		try {
 			while (true) {
-				while (!displayLogin());
+				while (!displayLoginOrRegistration());
 				
 				int authority = BookStore.authority;
 				
@@ -127,60 +127,107 @@ public class UserInterface {
 		}
 	}
 	
-	private static boolean displayLogin() {
-		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-			
-			String loginName = "";
-			String password = "";
-			
-			System.out.println("Please enter your login name:");
-			while ((loginName = in.readLine()) == null);
-			
-			System.out.println("Please enter your password:");
-			while ((password = in.readLine()) == null);
-			
-			if (BookStore.login(loginName, password)) {
-				System.out.println("Login successfully");
-				return true;
-			} else {
-				System.out.println("Login failed");
+	private static boolean displayLoginOrRegistration() throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		
+		String choice = null;
+		
+		while (true) {
+			System.out.println("Would you like to login or register?(l/r)");
+			while ((choice = in.readLine()) == null);
+			if (!choice.equals("l") && !choice.equals("r")) continue;
+			break;
+		}
+		
+		if (choice.equals("l")) {
+			try {
+				String loginName = "";
+				String password = "";
+				
+				System.out.println("Please enter your login name:");
+				while ((loginName = in.readLine()) == null);
+				
+				System.out.println("Please enter your password:");
+				while ((password = in.readLine()) == null);
+				
+				if (BookStore.login(loginName, password)) {
+					System.out.println("Login successfully");
+					return true;
+				} else {
+					System.out.println("Login failed");
+					return false;
+				}
+			} catch (Exception e) {
+				System.out.println("Some errors when login");
 				return false;
 			}
-		} catch (Exception e) {
-			System.out.println("Some errors when login");
-			return false;
+		} else {	
+			String login_name, password, password2, name, address, phone_num;
+			
+			System.out.println("Please enter a login_name:");
+			while ((login_name = in.readLine()) == null);
+			
+			while (true) {
+				System.out.println("Please enter a password:");
+				while ((password = in.readLine()) == null);
+				System.out.println("Please enter the password again:");
+				while ((password2 = in.readLine()) == null);
+				
+				if (password.equals(password2)) break; else
+					System.out.println("Password not match, please enter again.");
+			}
+			
+			System.out.println("Please enter a name:");
+		 	while ((name = in.readLine()) == null);
+		 	
+		 	System.out.println("Please enter a address:");
+		 	while ((address = in.readLine()) == null);
+		 	
+		 	System.out.println("Please enter a phone_num:");
+		 	while ((phone_num = in.readLine()) == null);
+		 	
+		 	try {
+		 		int res = User.newUser(login_name, password, name, address, phone_num);
+		 		if (res != -1) {
+		 			System.out.println("Success to registration.");
+		 			return true;
+		 		} else {
+		 			System.out.println("Registration failed.");
+		 			return false;
+		 		}
+		 	} catch (Exception e) {
+		 		System.out.println("Registration failed.");
+		 		return false;
+		 	}
 		}
 	}
 	
-	public static final int REGISTRATION = 1;
-	public static final int ORDERING = 2;
-	public static final int NEWBOOK = 3;
-	public static final int ADDCOPIES = 4;
-	public static final int FEEDBACK = 5;
-	public static final int USEFULNESS_RATING = 6;
-	public static final int TRUST = 7;
-	public static final int BROWSING = 8;
-	public static final int USEFUL_FEEDBACK = 9;
-	public static final int SUGGESTION = 10;
-	public static final int DEGREE = 11;
-	public static final int STATISTICS = 12;
-	public static final int AWARDS = 13;
+	public static final int ORDERING = 1;
+	public static final int NEWBOOK = 2;
+	public static final int ADDCOPIES = 3;
+	public static final int FEEDBACK = 4;
+	public static final int USEFULNESS_RATING = 5;
+	public static final int TRUST = 6;
+	public static final int BROWSING = 7;
+	public static final int USEFUL_FEEDBACK = 8;
+	public static final int SUGGESTION = 9;
+	public static final int DEGREE = 10;
+	public static final int STATISTICS = 11;
+	public static final int AWARDS = 12;
 	
-	public static void displayFuncMenu(int authority) {	
-		System.out.println("1.  Registration");
-		System.out.println("2.  Ordering");
-		System.out.println("3.  New book");
-		System.out.println("4.  Arrival of more copies");
-		System.out.println("5.  Feedback recordings");
-		System.out.println("6.  Usefulness ratings");
-		System.out.println("7.  Trust recordings");
-		System.out.println("8.  Book browsing");
-		System.out.println("9.  Useful feedbacks");
-		System.out.println("10. Buying suggestions");
-		System.out.println("11. \'Two degrees of separation\'");
-		System.out.println("12. Statistics");
-		System.out.println("13. User awards");
+	public static void displayFuncMenu(int authority) {
+		System.out.println("1.  Ordering");
+		System.out.println("2.  New book");
+		System.out.println("3.  Arrival of more copies");
+		System.out.println("4.  Feedback recordings");
+		System.out.println("5.  Usefulness ratings");
+		System.out.println("6.  Trust recordings");
+		System.out.println("7.  Book browsing");
+		System.out.println("8.  Useful feedbacks");
+		System.out.println("9. Buying suggestions");
+		System.out.println("10. \'Two degrees of separation\'");
+		System.out.println("11. Statistics");
+		System.out.println("12. User awards");
 		
 		if (BookStore.isManager(authority)) {
 			// TODO
@@ -209,36 +256,6 @@ public class UserInterface {
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			
 			switch (op) {
-			case REGISTRATION:
-				String login_name, password, password2, name, address, phone_num;
-				
-				System.out.println("Please enter a login_name:");
-				while ((login_name = in.readLine()) == null);
-				
-				while (true) {
-					System.out.println("Please enter a password:");
-					while ((password = in.readLine()) == null);
-					System.out.println("Please enter the password again:");
-					while ((password2 = in.readLine()) == null);
-					
-					if (password.equals(password2)) break; else
-						System.out.println("Password not match, please enter again.");
-				}
-				
-				System.out.println("Please enter a name:");
-    		 	while ((name = in.readLine()) == null);
-    		 	
-    		 	System.out.println("Please enter a address:");
-    		 	while ((address = in.readLine()) == null);
-    		 	
-    		 	System.out.println("Please enter a phone_num:");
-    		 	while ((phone_num = in.readLine()) == null);
-    		 	
-    		 	int res = User.newUser(login_name, password, name, address, phone_num);
-				if (res != -1) System.out.println("Success to registration"); else
-					System.out.println("Resgistration failed");
-    		 	
-    		 	break;
 			case ORDERING:
 				String isbn, num, time = null;
 				int n;
@@ -453,6 +470,7 @@ public class UserInterface {
 				
 				break;
 			case USEFULNESS_RATING:
+				String name;
 				
 				System.out.println("Please enter the isbn of the book of the feedback you want to assess:");
 				while ((isbn = in.readLine()) == null);
