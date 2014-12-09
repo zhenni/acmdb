@@ -1,0 +1,79 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts,amsmath,amssymb,graphicx,url}
+\usepackage{color}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{listings}
+
+% Old Stuff
+%%\oddsidemargin=0.15in
+%%\evensidemargin=0.15in
+%%\topmargin=-.5in
+%%\textheight=9in
+%%\textwidth=6.25in
+
+\setlength{\oddsidemargin}{.25in}
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6.25in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{observation}{Observation}
+
+
+\newenvironment{proof}{\noindent{\em Proof.} \hspace*{1mm}}{
+	\hspace*{\fill} $\Box$ }
+\newenvironment{proof_of}[1]{\noindent {\bf Proof of #1:}
+	\hspace*{1mm}}{\hspace*{\fill} $\Box$ }
+\newenvironment{proof_claim}{\begin{quotation} \noindent}{
+	\hspace*{\fill} $\diamond$ \end{quotation}}
+
+\newcommand{\heading}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 6.2in { {\bf MS113 Database Systems}
+     	 \hfill #2 }
+       \vspace{4mm}
+       \hbox to 6.2in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 6.2in { {\it #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\handout}[3]{\heading{#1}{#2}{Ying Sheng(5120309063) Zhen Wei(5120379085)}{}{#3}}
+
+\setlength{\parindent}{0in}
+\setlength{\parskip}{0.1in}
+
+\begin{document}
+\handout{1}{}{Project Schema}
+
+\texttt{user(\underline{u\_id}, name, login\_name, password, address, phone\_num)}
+
+\texttt{user\_trust(\underline{u\_id1, u\_id2}, is\_trust)}
+
+\texttt{book(\underline{isbn}, title, year\_of\_publication, copy\_num, price, format, subject, keywords, publisher\_id)}
+
+\texttt{writes(\underline{isbn, author\_id})}
+
+\texttt{orders(\underline{time, u\_id, isbn}, copy\_num)}
+
+\texttt{opinion(time, short\_text, score, \underline{u\_id, isbn})}
+
+\texttt{feedback(score, \underline{u\_id, isbn, u\_id2})}
+
+\end{document}
+
