@@ -641,10 +641,10 @@ public class UserInterface {
 			case DEGREE:
 				String author1, author2;
 				
-				System.out.println("Please enter the login name of one of the author:");
+				System.out.println("Please enter the name of one of the author:");
 				while ((author1 = in.readLine()) == null);
 				
-				System.out.println("Please enter the login name of the other author:");
+				System.out.println("Please enter the name of the other author:");
 				while ((author2 = in.readLine()) == null);
 				
 				try {

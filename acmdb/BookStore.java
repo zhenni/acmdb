@@ -72,6 +72,8 @@ public class BookStore {
 
 	public static void displayStatistics(int m, java.sql.Timestamp time1, java.sql.Timestamp time2) throws SQLException {
 		// the list of the m most popular books(in terms of copies sold in this semester)
+		System.out.println("The list of the m most popular books:");
+		
 		String sql = "SELECT isbn, SUM(copy_num) AS S "
 					+"FROM orders O "
 					+"WHERE O.time >= \'" + time1 +"\' AND O.time <= \'" + time2 + "\' "
@@ -81,6 +83,8 @@ public class BookStore {
 		printQueryResult(sql, m);
 		
 		// the list of m most popular authors
+		System.out.println("The list of m most popular authors:");
+		
 		sql = "SELECT W.author_id, SUM(O.copy_num) AS S "
 			+ "FROM orders O, writes W "
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
@@ -91,6 +95,8 @@ public class BookStore {
 		printQueryResult(sql, m);
 		
 		// the list of m most popular publishers
+		System.out.println("The list of m most popular publishers:");
+		
 		sql = "SELECT B.publisher_id, SUM(O.copy_num) AS S "
 			+ "FROM orders O, book B "
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
@@ -104,6 +110,8 @@ public class BookStore {
 	public static void displayAwardedUsers(int m) throws SQLException {
 		// the top m most 'trusted' users(the trust score of a user is the count of 
 		// users 'trusting' him/her, minus the count of users 'not-trusting' him/her)
+		System.out.println("The top " + m + " most 'trusted' users:");
+		
 		String sql = "SELECT login_name, S1.num - S2.num "
 					+"FROM user U, "
 					+"(SELECT COUNT(*) AS num "
@@ -119,6 +127,8 @@ public class BookStore {
 		
 		// the top m most 'useful' users(the userfulness score of a user is the average
 		// 'usefulness' of all of his/her feedbacks combined)
+		System.out.println("The top " + m + " most 'useful' users:");
+		
 		sql = "SELECT login_name, AVG(F.score) "
 			+ "FROM opinion O, feedback F "
 			+ "WHERE O.isbn = F.isbn AND O.u_id = F.u_id2 "
