@@ -33,8 +33,8 @@ public class UserInterface {
 	public static final int CHOICES = 6;
 	
 	//TODO need to be modified
-	public static final int FUNCS_ADMIN = 13;
-	public static final int FUNCS_USER = -1;
+	public static final int FUNCS_ADMIN = 12;
+	public static final int FUNCS_USER = 12;
 	
 	public static void run() {
 		try {
@@ -224,7 +224,7 @@ public class UserInterface {
 		System.out.println("6.  Trust recordings");
 		System.out.println("7.  Book browsing");
 		System.out.println("8.  Useful feedbacks");
-		System.out.println("9. Buying suggestions");
+		System.out.println("9.  Buying suggestions");
 		System.out.println("10. \'Two degrees of separation\'");
 		System.out.println("11. Statistics");
 		System.out.println("12. User awards");
@@ -232,7 +232,7 @@ public class UserInterface {
 		if (BookStore.isManager(authority)) {
 			// TODO
 		}
-		System.out.println("Please enter your choice: (1~13)");
+		System.out.println("Please enter your choice: (1~12)");
 	}
 	
 	private static void handleFunctionality(int op) {
