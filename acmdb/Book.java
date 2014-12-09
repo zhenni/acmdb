@@ -154,6 +154,10 @@ public class Book {
 	 * ('useless', 'useful', 'very useful' respectively).
 	 * A user should not be allowed to provide a usefulness-rating for his/her own feedbacks.</p>*/
 	public static int usefulnessRating(int u_id, String isbn, int u_id2, int score) throws SQLException{
+		if (u_id == u_id2){
+			System.out.println("You can not provide a usefulness-rating for your own feedbacks.");
+			return -1;
+		}
 		String sql = "INSERT INTO feedback(u_id, isbn, u_id2, score) VALUES (\'"
 			+ u_id + "\', \'"
 			+ isbn + "\', \'"
