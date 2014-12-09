@@ -85,24 +85,22 @@ public class Book {
 		}
 		//(c) by the average numerical score of the trusted user feedbacks
 		else if(order == 3){
-			sql += ("SELECT DISTINCT B.* " 
-					+ "FROM book B, writes W "
+			sql += ("SELECT B.* " 
+					+ "FROM book B, writes W, opinion O, user_trust T "
 					+ "WHERE "
 					+ "B.isbn = W.isbn AND "
 					+ "W.author_id like \'%" + author + "%\' AND " 
 					+ "B.publisher_id like \'%" + publisher + "%\' AND "
 					+ "B.title like \'%" + title + "%\' AND "
-					+ "B.subject like \'%" + subject + "%\' ")
-					;
-			sql += ("ORDER BY("
-					+ "SELECT AVG(O.score) "
-					+ "FROM opinion O, user_trust T "
-					+ "WHERE "
+					+ "B.subject like \'%" + subject + "%\' AND "
+					
 					+ "O.isbn = B.isbn AND "
 					+ "T.u_id1 = \'" + u_id + "\' AND "
 					+ "T.u_id2 = O.u_id AND "
-					+ "T.is_trust = \'1\'"
-					+ "GROUP BY B.isbn)");
+					+ "T.is_trust = \'1\' "
+					+ "GROUP BY B.isbn "
+					+ "ORDER BY AVG(O.score) DESC")
+					;
 		}else{
 			System.out.println("Please choose the order from 1 to 3");
 		}
