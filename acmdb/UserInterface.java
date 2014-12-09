@@ -399,6 +399,10 @@ public class UserInterface {
 					} catch (Exception e) {
 						continue;
 					}
+					if (n < 1) {
+						System.out.println("You must enter an author!");
+						continue;
+					}
 					break;
 				}
 				
