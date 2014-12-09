@@ -116,6 +116,7 @@ public class Driver {
 			Order.setConfiguration(con.stmt);
 			User.setConfiguration(con.stmt);
 			UserInterface.setConfiguration(con.stmt);
+			PrintResult.setConfiguration(con.stmt);
 			
 			createTables();
 			if (!User.exists("admin"))
