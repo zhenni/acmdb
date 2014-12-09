@@ -196,6 +196,7 @@ public class UserInterface {
 		 			return false;
 		 		}
 		 	} catch (Exception e) {
+		 		System.err.println(e.getMessage());
 		 		System.out.println("Registration failed.");
 		 		return false;
 		 	}
@@ -301,8 +302,10 @@ public class UserInterface {
 				
 				break;
 			case NEWBOOK:
-				if (!BookStore.isManager(BookStore.authority))
+				if (!BookStore.isManager(BookStore.authority)) {
 					System.out.println("Insufficient user permissions.");
+					break;
+				}
 				
 				String title, year, copy_num, price, format, subject, keywords;
 				String publisher_name, st;
@@ -385,11 +388,15 @@ public class UserInterface {
 				
 				if (Book.newBook(isbn, title, y, copy, price, format, subject, keywords, publisher_name, author_names) == -1)
 					System.out.println("New book added failed.");
-				
+				else {
+					System.out.println("New book added success");
+				}
 				break;
 			case ADDCOPIES:
-				if (!BookStore.isManager(BookStore.authority))
+				if (!BookStore.isManager(BookStore.authority)) {
 					System.out.println("Insufficient user permissions.");
+					break;
+				}
 				
 				System.out.println("Please enter the isbn of the arrived book:");
 				while ((isbn = in.readLine()) == null);
@@ -415,6 +422,11 @@ public class UserInterface {
 				
 				System.out.println("Please enter the isbn of the book you want to give feedback:");
 				while ((isbn = in.readLine()) == null);
+				
+				if (Order.haveOrder(User.u_id, isbn)){
+					System.out.println("You have not order this book");
+					break;
+				}
 				
 				if (Book.haveGivenFeedback(isbn, User.u_id)) {
 					System.out.println("You have already given a feedback to this book.");
@@ -471,14 +483,26 @@ public class UserInterface {
 				break;
 			case USEFULNESS_RATING:
 				String name;
+				int u2_id;
 				
 				System.out.println("Please enter the isbn of the book of the feedback you want to assess:");
 				while ((isbn = in.readLine()) == null);
 				
-				System.out.println("Please enter the login name of the user of the feedback you want to assess:");
-				while ((name = in.readLine()) == null);
+				Book.showFeedbacks(User.u_id, isbn);
 				
-				int u2_id = User.getUserId(name);
+				while(true){
+					System.out.println("Please enter the login name of the user of the feedback you want to assess:");
+					while ((name = in.readLine()) == null);
+					
+					u2_id = User.getUserId(name);
+					
+					if(Book.haveGivenFeedback(isbn, u2_id)){
+						break;
+					}else {
+						System.out.println("the user "+ name + " has not give a feed back for the book "+ isbn);
+					}
+				}
+				
 				
 				while (true) {
 					System.out.println("Please give your numerical score(0 = 'userless', 1 = 'useful', 2 = 'very useful'):");
@@ -531,22 +555,31 @@ public class UserInterface {
 				String author_name = null, order = null;
 				int c;
 				
-				System.out.println("Would you want to search depends on authors? (y/n)");
-				while ((need_author = in.readLine()) == null || !(need_author.equals("y") || need_author.equals("n")));
+				while (true) {
+					System.out.println("Would you want to search depends on authors? (y/n)");
+					while ((need_author = in.readLine()) == null);
+					if (need_author.equals("y") || need_author.equals("n")) break;
+				}
 				if (need_author.equals("y")) {
 					System.out.println("Please enter the author's name:");
 					while ((author_name = in.readLine()) == null);
 				}
 				
-				System.out.println("Would you want to search depends on publishers? (y/n)");
-				while ((need_publisher = in.readLine()) == null || !(need_publisher.equals("y") || need_publisher.equals("n")));
+				while (true) {
+					System.out.println("Would you want to search depends on publishers? (y/n)");
+					while ((need_publisher = in.readLine()) == null);
+					if (need_publisher.equals("y") || need_publisher.equals("n")) break;
+				}
 				if (need_publisher.equals("y")) {
 					System.out.println("Please enter the publisher's name:");
 					while ((publisher_name = in.readLine()) == null);
 				}
 				
-				System.out.println("Would you want to search depends on title? (y/n)");
-				while ((need_title = in.readLine()) == null || !(need_title.equals("y") || need_title.equals("n")));
+				while (true) {
+					System.out.println("Would you want to search depends on title? (y/n)");
+					while ((need_title = in.readLine()) == null);
+					if (need_title.equals("y") || need_title.equals("n")) break;
+				}
 				if (need_title.equals("y")) {
 					System.out.println("Please enter the title words:");
 					while ((title = in.readLine()) == null);
@@ -556,8 +589,11 @@ public class UserInterface {
 					System.out.println("Please enter the subject:");
 					while ((subject = in.readLine()) == null);
 				} else {
-					System.out.println("Would you want to search depends on subject? (y/n)");
-					while ((need_subject = in.readLine()) == null || !(need_subject.equals("y") || need_subject.equalsIgnoreCase("n")));
+					while (true) {
+						System.out.println("Would you want to search depends on subject? (y/n)");
+						while ((need_subject = in.readLine()) == null);
+						if (need_subject.equals("y") || need_subject.equalsIgnoreCase("n")) break;
+					}
 					if (need_subject.equals("y")) {
 						System.out.println("Please enter the subject:");
 						while ((subject = in.readLine()) == null);

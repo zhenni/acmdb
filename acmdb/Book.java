@@ -111,7 +111,7 @@ public class Book {
 	/**<strong>Arrival of more copies:</strong>
 	 * <p>The store manager increases the appropriate counts.</p>*/
 	public static int addCopies(String isbn, int copy_num) throws SQLException{
-		String sql = "UPDATE book SET copy_num = copy_num " + copy_num;
+		String sql = "UPDATE book SET copy_num = copy_num +\'" + copy_num + "\'";
 		int res = executeUpdate(sql);
 		return res;
 	}
@@ -120,12 +120,12 @@ public class Book {
 	 * <p>Users can record their feedback for a book. 
 	 * We should record the date, the numerical score (0= terrible, 10= masterpiece), and an optional short text.
 	 * No changes are allowed; only one feedback per user per book is allowed.</p>*/
-	public static int giveFeedback(String isbn, int u_id, int score, String comment, java.sql.Timestamp time) throws SQLException{
-		String sql = "INSERT INTO opinion(isbn, u_id, score, comment, time) VALUES (\'" 
+	public static int giveFeedback(String isbn, int u_id, int score, String short_text, java.sql.Timestamp time) throws SQLException{
+		String sql = "INSERT INTO opinion(isbn, u_id, score, short_text, time) VALUES (\'" 
 			+ isbn + "\', \'"
 			+ u_id + "\', \'"
 			+ score + "\', \'"
-			+ comment + "\', \'"
+			+ short_text + "\', \'"
 			+ time + "\')";
 		return executeUpdate(sql);
 	}
@@ -138,6 +138,16 @@ public class Book {
 		return true;
 	}
 
+	public static int showFeedbacks(int u_id, String isbn) throws Exception{
+		String sql = "SELECT U.login_name, O.score, O.short_text "
+				+ "FROM opinion O, user U "
+				+ "WHERE O.isbn = \'" + isbn + "\' AND "
+						+ "O.u_id = U.u_id AND "
+						+ "O.u_id <> \'"+u_id + "\'";
+		printQueryResult(sql);
+		return 0;
+	}
+	
 	/**<strong>Usefulness ratings:</strong> 
 	 * <p>Users can assess a feedback record, giving it a numerical score 0, 1, or 2
 	 * ('useless', 'useful', 'very useful' respectively).
@@ -222,10 +232,15 @@ public class Book {
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int numCols = rsmd.getColumnCount();
 		
-		for (int i = 1; i <= numCols; ++i)
-			System.out.print(rsmd.getColumnName(i) + "  ");
-		System.out.println();
+		
+		int row = 0;
 		while (rs.next()) {
+			if(row++ == 0){
+				for (int i = 1; i <= numCols; ++i)
+					System.out.print(rsmd.getColumnName(i) + "  ");
+				System.out.println();
+			
+			}
 			for (int i = 1; i <= numCols; ++i)
 				System.out.print(rs.getString(i) + "  ");
 			System.out.println("");

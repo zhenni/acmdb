@@ -48,13 +48,13 @@ public class Driver {
 			+ "format CHAR(30), "
 			+ "subject CHAR(100), "
 			+ "keywords CHAR(100), "
-			+ "publisher_id INTEGER "
+			+ "publisher_id CHAR(30) "
 			+ "); ";
 		Tables.create(tableNames[4], sql);
 		
 		sql = "CREATE TABLE IF NOT EXISTS writes ( "
 			+ "isbn CHAR(30), "
-			+ "author_id INTEGER, "
+			+ "author_id CHAR(30), "
 			+ "PRIMARY KEY (isbn, author_id), "
 			+ "FOREIGN KEY (isbn) REFERENCES book(isbn) "
 			+ ");";

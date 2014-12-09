@@ -72,4 +72,13 @@ public class Order{
 		System.err.println("DEBUG CHECK : " + sql);
 		return stmt.executeUpdate(sql);
 	}
+
+	public static boolean haveOrder(int u_id, String isbn) throws NumberFormatException, SQLException {
+		String sql = "SELECT COUNT(*) FROM orders O "
+				+ "WHERE O.u_id = \'" + u_id + "\'"
+						+ " AND O.isbn = \'" + isbn + "\'";
+		int cnt = Integer.parseInt(getQueryWithOneResult(sql));
+		if (cnt < 1) return false;
+		return true;
+	}
 }
