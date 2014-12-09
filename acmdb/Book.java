@@ -237,12 +237,13 @@ public class Book {
 	 * (i.e., most popular first); count only sales to users like `X'.
 	 * @throws SQLException */
 	public static void giveSuggestBooks(int u_id) throws SQLException {
-		String sql = "SELECT B.* "
-				+ "FROM Book B, orders O1, orders O2 "
-				+ "WHERE O1.u_id = \'" + u_id + "\' AND "
-				+ "O1.isbn = O2.isbn "
-				+ "GROUP BY B.isbn "
-				+ "ORDER BY SUM(O2.copy_num) DESC";
+		String sql = "SELECT B2.* "
+				+ "FROM book B1, book B2, orders O "
+				+ "WHERE (EXISTS (SELECT * FROM orders O2 WHERE O2.u_id = \'" + u_id + "\' AND O2.isbn = B1.isbn)) AND "
+				+ "		(EXISTS (SELECT * FROM orders O3 WHERE O3.u_id = O.u_id AND O3.isbn = B1.isbn)) AND "
+				+ "		O.isbn = B2.isbn "
+				+ "GROUP BY B2.isbn "
+				+ "ORDER BY SUM(O.copy_num) DESC";
 		printQueryResult(sql);
 	}
 
