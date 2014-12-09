@@ -120,6 +120,21 @@ public class Book {
 	 * */
 	public static int displayUsefulFeedback(String isbn, int n) {
 		int res = -1;
+		
+		String sql = "SELECT O.*, AVG(F.score) "
+				+ "FROM opinion O, feedback F "
+				+ "WHERE O.isbn = F.isbn AND O.u_id = F.u_id AND O.isbn = \'" + isbn + "\' "
+				+ "GROUP BY (O.u_id, O.isbn) "
+				+ "ORDER BY AVG(F.score) DESC";
+		
+		try {
+			printQueryResult(sql, n);
+			res = 1;
+		} catch (Exception e) {
+			System.err.println(e);
+			res = -1;
+		}
+		
 		return res;
 	}
 	
@@ -263,15 +278,12 @@ public class Book {
 		printQueryResult(sql);
 	}
 
-	
-	
 	public static int printQueryResult(String sql) throws SQLException{
 		System.err.println("DEBUG CHECK : "+ sql);
 		ResultSet rs = stmt.executeQuery(sql);
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int numCols = rsmd.getColumnCount();
-		
-		
+				
 		int row = 0;
 		while (rs.next()) {
 			if(row++ == 0){
@@ -285,6 +297,30 @@ public class Book {
 			System.out.println("");
 		}
 		if (row == 0) System.out.println("Empty set.");
+		System.out.println(" ");
+		rs.close();
+		return row;
+	}
+	
+	public static int printQueryResult(String sql, int m) throws SQLException{
+		System.err.println("DEBUG CHECK : "+ sql);
+		ResultSet rs = stmt.executeQuery(sql);
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int numCols = rsmd.getColumnCount();
+				
+		int row;
+		for (row = 1; row <= m && rs.next(); ++row) {
+			if(row == 1){
+				for (int i = 1; i <= numCols; ++i)
+					System.out.print(rsmd.getColumnName(i) + "  ");
+				System.out.println();
+			}
+			
+			for (int i = 1; i <= numCols; ++i)
+				System.out.print(rs.getString(i) + "  ");
+			System.out.println("");
+		}
+		if (row == 1) System.out.println("Empty set.");
 		System.out.println(" ");
 		rs.close();
 		return row;

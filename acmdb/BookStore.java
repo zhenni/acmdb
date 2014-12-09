@@ -140,14 +140,19 @@ public class BookStore {
 		ResultSetMetaData rsmd = res.getMetaData();
 		int numCols = rsmd.getColumnCount();
 		
-		for (int i = 1; i <= numCols; ++i)
-			System.out.print(rsmd.getColumnName(i) + "  ");
-		System.out.println();
-		for (int row = 1; res.next() && row <= m; ++row) {
+		int row;
+		for (row = 1; res.next() && row <= m; ++row) {
+			if (row == 1) {
+				for (int i = 1; i <= numCols; ++i)
+					System.out.print(rsmd.getColumnName(i) + "  ");
+				System.out.println();
+			}
+			
 			for (int i = 1; i <= numCols; ++i)
 				System.out.print(res.getString(i) + "  ");
 			System.out.println("");
 		}
+		if (row == 1) System.out.println("Empty set.");
 		System.out.println(" ");
 		
 		res.close();

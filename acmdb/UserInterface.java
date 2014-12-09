@@ -19,22 +19,71 @@ public class UserInterface {
 		setConfiguration(_stmt);
 	}
 
+	public static final int RANGE_MENU = 6;
+	public static final int RANGE_FUNC = 12;
+	public static final boolean MENU_AUTHORITY[] = {true, true, false, false, true, true, true};
+	public static final boolean FUNC_AUTHORITY[] = {true, true, false, false, true, true, true, true, true, true, true, false, false};
+	
 	public static void displayMenu(int authority) {
-		System.out.println("        Bookstore Management System     ");
-		System.out.println("1. enter your own query:");
-		System.out.println("2. enter your own update:");
-		System.out.println("3. clear the tables (be careful)");
-		System.out.println("4. show the funtionality menu");
-		System.out.println("5. log out");
-		System.out.println("6. exit:");
-		System.out.println("please enter your choice:");
+		if (BookStore.isManager(authority)) {
+			System.out.println("        Bookstore Management System     ");
+			System.out.println("1. enter your own query:");
+			System.out.println("2. enter your own update:");
+			System.out.println("3. clear the tables (be careful)");
+			System.out.println("4. show the funtionality menu");
+			System.out.println("5. log out");
+			System.out.println("6. exit:");
+			System.out.println("please enter your choice:");
+		} else {
+			System.out.println("        Bookstore Management System     ");
+			System.out.println("1. enter your own query:");
+			System.out.println("4. show the funtionality menu");
+			System.out.println("5. log out");
+			System.out.println("6. exit:");
+			System.out.println("please enter your choice:");
+		}
 	}
 	
-	public static final int CHOICES = 6;
+	public static final int ORDERING = 1;
+	public static final int NEWBOOK = 2;
+	public static final int ADDCOPIES = 3;
+	public static final int FEEDBACK = 4;
+	public static final int USEFULNESS_RATING = 5;
+	public static final int TRUST = 6;
+	public static final int BROWSING = 7;
+	public static final int USEFUL_FEEDBACK = 8;
+	public static final int SUGGESTION = 9;
+	public static final int DEGREE = 10;
+	public static final int STATISTICS = 11;
+	public static final int AWARDS = 12;
 	
-	//TODO need to be modified
-	public static final int FUNCS_ADMIN = 12;
-	public static final int FUNCS_USER = 12;
+	public static void displayFuncMenu(int authority) {
+		if (BookStore.isManager(authority)) {
+			System.out.println("1.  Ordering");
+			System.out.println("2.  New book");
+			System.out.println("3.  Arrival of more copies");
+			System.out.println("4.  Feedback recordings");
+			System.out.println("5.  Usefulness ratings");
+			System.out.println("6.  Trust recordings");
+			System.out.println("7.  Book browsing");
+			System.out.println("8.  Useful feedbacks");
+			System.out.println("9.  Buying suggestions");
+			System.out.println("10. \'Two degrees of separation\'");
+			System.out.println("11. Statistics");
+			System.out.println("12. User awards");
+			System.out.println("Please enter your choice: (1~12)");
+		} else {
+			System.out.println("1.  Ordering");
+			System.out.println("4.  Feedback recordings");
+			System.out.println("5.  Usefulness ratings");
+			System.out.println("6.  Trust recordings");
+			System.out.println("7.  Book browsing");
+			System.out.println("8.  Useful feedbacks");
+			System.out.println("9.  Buying suggestions");
+			System.out.println("10. \'Two degrees of separation\'");
+			System.out.println("Please enter your choice:");
+		}
+	}
 	
 	public static void run() {
 		try {
@@ -58,25 +107,38 @@ public class UserInterface {
 						continue;
 					}
 					
-					if (c < 1 || c > CHOICES) continue;
+					if (c < 1 || c > RANGE_MENU) {
+						System.out.println("Out of range.");
+						continue;
+					}
+					
+					if (!BookStore.isManager(authority) && !MENU_AUTHORITY[c]) {
+						System.out.println("Insufficient user permissions.");
+						continue;
+					}
 					
 					if (c == 1) {
 						System.out.println("please enter your query below:");
 						while ((sql = in.readLine()) == null)
 							System.out.println(sql);
-						ResultSet rs = stmt.executeQuery(sql);
-						ResultSetMetaData rsmd = rs.getMetaData();
-						int numCols = rsmd.getColumnCount();
-						for (int i = 1; i <= numCols; ++i)
-							System.out.print(rsmd.getColumnName(i) + "  ");
-						System.out.println();
-						while (rs.next()) {
+						try {
+							ResultSet rs = stmt.executeQuery(sql);
+							ResultSetMetaData rsmd = rs.getMetaData();
+							int numCols = rsmd.getColumnCount();
 							for (int i = 1; i <= numCols; ++i)
-								System.out.print(rs.getString(i) + "  ");
-							System.out.println("");
+								System.out.print(rsmd.getColumnName(i) + "  ");
+							System.out.println();
+							while (rs.next()) {
+								for (int i = 1; i <= numCols; ++i)
+									System.out.print(rs.getString(i) + "  ");
+								System.out.println("");
+							}
+							System.out.println(" ");
+							rs.close();
+						} catch (Exception e) {
+							System.err.println(e);
+							continue;
 						}
-						System.out.println(" ");
-						rs.close();
 					}
 					else if (c==2){
 						System.out.println("please enter your operation below:");
@@ -100,11 +162,13 @@ public class UserInterface {
 						} catch (Exception e) {
 							continue;
 						}
-						int num = FUNCS_USER;
-						if (BookStore.isManager(authority)) num = FUNCS_ADMIN;
-						if (func > num) 
-							System.out.println("out of the range");
-						else handleFunctionality(func);
+						if (func < 1 || func > RANGE_FUNC) { 
+							System.out.println("Out of the range");
+						} else
+						if (!BookStore.isManager(authority) && !FUNC_AUTHORITY[c]) {
+							System.out.println("Insufficient user permissions.");
+						} else
+							handleFunctionality(func);
 					}
 					else if (c == 5) {
 						BookStore.logout();
@@ -200,40 +264,6 @@ public class UserInterface {
 		 	return false;
 		}
 	}
-	
-	public static final int ORDERING = 1;
-	public static final int NEWBOOK = 2;
-	public static final int ADDCOPIES = 3;
-	public static final int FEEDBACK = 4;
-	public static final int USEFULNESS_RATING = 5;
-	public static final int TRUST = 6;
-	public static final int BROWSING = 7;
-	public static final int USEFUL_FEEDBACK = 8;
-	public static final int SUGGESTION = 9;
-	public static final int DEGREE = 10;
-	public static final int STATISTICS = 11;
-	public static final int AWARDS = 12;
-	
-	public static void displayFuncMenu(int authority) {
-		System.out.println("1.  Ordering");
-		System.out.println("2.  New book");
-		System.out.println("3.  Arrival of more copies");
-		System.out.println("4.  Feedback recordings");
-		System.out.println("5.  Usefulness ratings");
-		System.out.println("6.  Trust recordings");
-		System.out.println("7.  Book browsing");
-		System.out.println("8.  Useful feedbacks");
-		System.out.println("9.  Buying suggestions");
-		System.out.println("10. \'Two degrees of separation\'");
-		System.out.println("11. Statistics");
-		System.out.println("12. User awards");
-		
-		if (BookStore.isManager(authority)) {
-			// TODO
-		}
-		System.out.println("Please enter your choice: (1~12)");
-	}
-	
 	private static void handleFunctionality(int op) {
 		try {
 			handleFunc(op);
@@ -486,8 +516,10 @@ public class UserInterface {
 				System.out.println("Please enter the isbn of the book of the feedback you want to assess:");
 				while ((isbn = in.readLine()) == null);
 				
-				if (Book.showFeedbacks(User.u_id, isbn) == -1)
+				if (Book.showFeedbacks(User.u_id, isbn) == -1) {
 					System.out.println("No feedbacks for this book yet.");
+					break;
+				}
 				
 				System.out.println("Please enter the login name of the user of the feedback you want to assess:");
 				while ((name = in.readLine()) == null);
