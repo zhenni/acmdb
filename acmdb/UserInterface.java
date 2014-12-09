@@ -490,17 +490,14 @@ public class UserInterface {
 				
 				Book.showFeedbacks(User.u_id, isbn);
 				
-				while(true){
-					System.out.println("Please enter the login name of the user of the feedback you want to assess:");
-					while ((name = in.readLine()) == null);
-					
-					u2_id = User.getUserId(name);
-					
-					if(Book.haveGivenFeedback(isbn, u2_id)){
-						break;
-					}else {
-						System.out.println("the user "+ name + " has not give a feed back for the book "+ isbn);
-					}
+				System.out.println("Please enter the login name of the user of the feedback you want to assess:");
+				while ((name = in.readLine()) == null);
+				
+				u2_id = User.getUserId(name);
+				
+				if(!Book.haveGivenFeedback(isbn, u2_id)){
+					System.out.println("the user "+ name + " has not give a feed back for the book "+ isbn);
+					break;
 				}
 				
 				
