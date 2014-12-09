@@ -190,16 +190,14 @@ public class UserInterface {
 		 		int res = User.newUser(login_name, password, name, address, phone_num);
 		 		if (res != -1) {
 		 			System.out.println("Success to registration.");
-		 			return true;
 		 		} else {
 		 			System.out.println("Registration failed.");
-		 			return false;
 		 		}
 		 	} catch (Exception e) {
 		 		System.err.println(e.getMessage());
 		 		System.out.println("Registration failed.");
-		 		return false;
 		 	}
+		 	return false;
 		}
 	}
 	
@@ -488,7 +486,8 @@ public class UserInterface {
 				System.out.println("Please enter the isbn of the book of the feedback you want to assess:");
 				while ((isbn = in.readLine()) == null);
 				
-				Book.showFeedbacks(User.u_id, isbn);
+				if (Book.showFeedbacks(User.u_id, isbn) == -1)
+					System.out.println("No feedbacks for this book yet.");
 				
 				System.out.println("Please enter the login name of the user of the feedback you want to assess:");
 				while ((name = in.readLine()) == null);
