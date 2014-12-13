@@ -92,7 +92,7 @@ public class UserInterface {
 			while (true) {
 				while (!displayLoginOrRegistration());
 				
-				int authority = BookStore.authority;
+				int authority = user.authority;
 				
 				String choice;
 				int c = 0;
@@ -332,7 +332,7 @@ public class UserInterface {
 				
 				break;
 			case NEWBOOK:
-				if (!BookStore.isManager(BookStore.authority)) {
+				if (!BookStore.isManager(user.authority)) {
 					System.out.println("Insufficient user permissions.");
 					break;
 				}
@@ -427,7 +427,7 @@ public class UserInterface {
 				}
 				break;
 			case ADDCOPIES:
-				if (!BookStore.isManager(BookStore.authority)) {
+				if (!BookStore.isManager(user.authority)) {
 					System.out.println("Insufficient user permissions.");
 					break;
 				}

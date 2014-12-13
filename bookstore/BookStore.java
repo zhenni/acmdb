@@ -14,10 +14,10 @@ public class BookStore {
 		setConfiguration(stmt);
 	}
 	
-	private static final int ADMIN = 1;
-	private static final int USER = 2;
 	
-	public static int authority = 0;
+	public static final int INVALID = 0;
+	public static final int ADMIN = 1;
+	private static final int USER = 2;
 	
 	public static boolean isManager(int authority) {
 		if (authority == ADMIN) return true;
@@ -34,7 +34,7 @@ public class BookStore {
 				+ "WHERE (U.login_name = '" + loginName + "' AND U.password = '" + password + "')";
 			res = stmt.executeQuery(sql);
 			if (res.next()) {
-				if (loginName.equals("admin")) authority = ADMIN; else authority = USER;
+				if (loginName.equals("admin")) user.authority = ADMIN; else user.authority = USER;
 				
 				user.u_id = res.getInt(1);
 				user.name = res.getString(2);
@@ -102,7 +102,7 @@ public class BookStore {
 	
 	
 	public static void logout(User user) {
-		authority = 0;
+		user.authority = INVALID;
 		
 		user.u_id = -1;
 		user.name = null;

@@ -19,6 +19,8 @@ public class User {
 	public String address = null;
 	public String phone_num = null;
 	
+	public int authority = 0;
+	
 	/**regislate a new user*/
 	public static int newUser(String login_name, String password, String name, String address, String phone_num) throws SQLException{
 		String sql = "INSERT INTO user(login_name, password, name, address, phone_num) VALUES (\'"

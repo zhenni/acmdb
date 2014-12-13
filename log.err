@@ -1,0 +1,1 @@
+DEBUG CHECK : SELECT COUNT(*) FROM user WHERE login_name = 'admin'

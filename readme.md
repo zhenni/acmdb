@@ -6,10 +6,13 @@ Our ER-diagram and schema is in doc/doc.pdf
 
 ### Compile:
 
-1. javac acmdb/*.java
-2. In windows system: java -cp "./mysql.jar;." acmdb.Driver
-   In Linux/Unix system: java -cp ./mysql.jar:. acmdb.Driver
-3. Or you can use an IDE (such as Ecilipse). Remeber to add mysql.jar as an external jar to your project's Java build/library path.
+1. In windows system:
+	javac -cp "./mysql.jar;." acmdb/*.java
+	java -cp "./mysql.jar;." acmdb.Driver 2>log.err
+2. In Linux/Unix system: 
+	javac -cp ./mysql.jar:. acmdb/*.java
+	java -cp ./mysql.jar:. acmdb.Driver 2>log.err
+3. Or you can use an IDE (such as Ecilipse). Remember to add mysql.jar as an external jar to your project's Java build/library path.
 4. When you run the program, you may have to login with the root authority to do something, such that add a new book, add some new copies. The login_name and the password is shown in the followings.
 
 ### Admin Login:
