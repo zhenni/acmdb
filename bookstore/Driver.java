@@ -122,7 +122,8 @@ public class Driver {
 			if (!User.exists("admin"))
 				User.newUser("admin", "admin", "admin", "", "");
 			
-			UserInterface.run();
+			UserInterface ui = new UserInterface();
+			ui.run();
 		} catch (Exception e) {
 			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
 				System.out.println("You have an error in your SQL syntax");

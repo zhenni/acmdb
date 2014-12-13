@@ -24,6 +24,45 @@ public class BookStore {
 		return false;
 	}
 	
+	
+	//add
+	public static boolean login(User user, String loginName, String password) throws SQLException {
+		String sql = null;
+		ResultSet res = null;
+		try {
+			sql = "SELECT * FROM user U "
+				+ "WHERE (U.login_name = '" + loginName + "' AND U.password = '" + password + "')";
+			res = stmt.executeQuery(sql);
+			if (res.next()) {
+				if (loginName.equals("admin")) authority = ADMIN; else authority = USER;
+				
+				user.u_id = res.getInt(1);
+				user.name = res.getString(2);
+				user.login_name = res.getString(3);
+				user.password = res.getString(4);
+				user.address = res.getString(5);
+				user.phone_num = res.getString(6);
+				
+				res.close();
+				return true;
+			} else {
+				res.close();
+				return false;
+			}
+		} catch (Exception e) {
+			if (e instanceof com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException) {
+				System.out.println("You have an error in your SQL syntax");
+				e.printStackTrace();
+			} else {
+				System.out.println("No such login name or password incorrect");
+			}
+			res.close();
+			return false;
+		}
+	}
+	
+	
+	/*
 	public static boolean login(String loginName, String password) throws SQLException {
 		String sql = null;
 		ResultSet res = null;
@@ -59,6 +98,20 @@ public class BookStore {
 		}
 	}
 	
+	*/
+	
+	
+	public static void logout(User user) {
+		authority = 0;
+		
+		user.u_id = -1;
+		user.name = null;
+		user.login_name = null;
+		user.password = null;
+		user.address = null;
+		user.phone_num = null;
+	}
+	/*
 	public static void logout() {
 		authority = 0;
 		
@@ -68,7 +121,7 @@ public class BookStore {
 		User.password = null;
 		User.address = null;
 		User.phone_num = null;
-	}
+	}*/
 
 	public static void displayStatistics(int m, java.sql.Timestamp time1, java.sql.Timestamp time2) throws SQLException {
 		// the list of the m most popular books(in terms of copies sold in this semester)

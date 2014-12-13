@@ -11,6 +11,8 @@ public class UserInterface {
 	
 	private static Statement stmt;
 	
+	private User user = new User();
+	
 	public static void setConfiguration(Statement _stmt) {
 		stmt = _stmt;
 	}
@@ -85,7 +87,7 @@ public class UserInterface {
 		}
 	}
 	
-	public static void run() {
+	public void run() {
 		try {
 			while (true) {
 				while (!displayLoginOrRegistration());
@@ -171,7 +173,7 @@ public class UserInterface {
 							handleFunctionality(func);
 					}
 					else if (c == 5) {
-						BookStore.logout();
+						BookStore.logout(user);
 						break;
 					}
 					else {//c == 6
@@ -191,7 +193,7 @@ public class UserInterface {
 		}
 	}
 	
-	private static boolean displayLoginOrRegistration() throws IOException {
+	private boolean displayLoginOrRegistration() throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		
 		String choice = null;
@@ -214,7 +216,7 @@ public class UserInterface {
 				System.out.println("Please enter your password:");
 				while ((password = in.readLine()) == null);
 				
-				if (BookStore.login(loginName, password)) {
+				if (BookStore.login(user, loginName, password)) {
 					System.out.println("Login successfully");
 					return true;
 				} else {
@@ -264,7 +266,7 @@ public class UserInterface {
 		 	return false;
 		}
 	}
-	private static void handleFunctionality(int op) {
+	private void handleFunctionality(int op) {
 		try {
 			handleFunc(op);
 			
@@ -280,7 +282,7 @@ public class UserInterface {
 		}
 	}
 	
-	public static void handleFunc(int op) {
+	public void handleFunc(int op) {
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			
@@ -324,7 +326,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (Order.order(User.u_id, isbn, n, stamp) != -1)
+				if (Order.order(user.u_id, isbn, n, stamp) != -1)
 					System.out.println("Ordering successed.");
 				else System.out.println("Operation failed.");
 				
@@ -455,12 +457,12 @@ public class UserInterface {
 				System.out.println("Please enter the isbn of the book you want to give feedback:");
 				while ((isbn = in.readLine()) == null);
 				
-				if (!Order.haveOrder(User.u_id, isbn)){
+				if (!Order.haveOrder(user.u_id, isbn)){
 					System.out.println("You have not order this book.");
 					break;
 				}
 				
-				if (Book.haveGivenFeedback(isbn, User.u_id)) {
+				if (Book.haveGivenFeedback(isbn, user.u_id)) {
 					System.out.println("You have already given a feedback to this book.");
 					break;
 				}
@@ -508,7 +510,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (Book.giveFeedback(isbn, User.u_id, score, comment, stamp) != -1) {
+				if (Book.giveFeedback(isbn, user.u_id, score, comment, stamp) != -1) {
 					System.out.println("Given comments successed.");
 				} else System.out.println("Operation failed.");
 				
@@ -520,7 +522,7 @@ public class UserInterface {
 				System.out.println("Please enter the isbn of the book of the feedback you want to assess:");
 				while ((isbn = in.readLine()) == null);
 				
-				if (Book.showFeedbacks(User.u_id, isbn) == -1) {
+				if (Book.showFeedbacks(user.u_id, isbn) == -1) {
 					System.out.println("No feedbacks for this book yet.");
 					break;
 				}
@@ -549,7 +551,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (Book.usefulnessRating(User.u_id, isbn, u2_id, score) != -1)
+				if (Book.usefulnessRating(user.u_id, isbn, u2_id, score) != -1)
 					System.out.println("Feedback assessing successed.");
 				else System.out.println("Operation failed.");
 				
@@ -576,7 +578,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (User.setTrustOrNot(User.u_id, u2_id, trust) != -1)
+				if (User.setTrustOrNot(user.u_id, u2_id, trust) != -1)
 					System.out.println("Changes done.");
 				else System.out.println("Operation failed.");
 				
@@ -648,7 +650,7 @@ public class UserInterface {
 					break;
 				}
 				
-				if (Book.find(User.u_id, author_name, publisher_name, title, subject, c) == -1)
+				if (Book.find(user.u_id, author_name, publisher_name, title, subject, c) == -1)
 					System.out.println("Operation failed.");
 				break;
 				
@@ -672,7 +674,7 @@ public class UserInterface {
 				
 				break;
 			case SUGGESTION:
-				Book.giveSuggestBooks(User.u_id);
+				Book.giveSuggestBooks(user.u_id);
 				break;
 			case DEGREE:
 				String author1, author2;
