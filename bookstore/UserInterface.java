@@ -686,7 +686,7 @@ public class UserInterface {
 				while ((author2 = in.readLine()) == null);
 				
 				try {
-					Book.giveSeparationDegree(author1, author2);
+					System.out.println(Book.giveSeparationDegree(author1, author2));
 				} catch (Exception e) {
 					System.out.println("Operation failed.");
 				}
