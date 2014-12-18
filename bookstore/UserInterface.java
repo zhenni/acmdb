@@ -539,7 +539,7 @@ public class UserInterface {
 				
 				
 				while (true) {
-					System.out.println("Please give your numerical score(0 = 'userless', 1 = 'useful', 2 = 'very useful'):");
+					System.out.println("Please give your numerical score(0 = 'useless', 1 = 'useful', 2 = 'very useful'):");
 					while ((st = in.readLine()) == null);
 					try {
 						score = Integer.parseInt(st);
