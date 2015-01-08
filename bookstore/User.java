@@ -43,9 +43,15 @@ public class User {
 		return false;
 	}
 
-	public static int getUserId(String login_name) throws Exception{
+	public static int getUserId(String login_name) {
 		String sql = "SELECT u_id FROM user WHERE user.login_name = \'"+login_name+"\'";
-		return Integer.parseInt(getQueryWithOneResult(sql));
+		try {
+			int res = Integer.parseInt(getQueryWithOneResult(sql));
+			if (res == 0) return -1;
+			return res;
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 	
 	public static int setTrustOrNot(int u_id1, int u_id2, int trust) throws SQLException{
