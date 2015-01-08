@@ -53,13 +53,7 @@ public class User {
 			+ u_id1 + "\', \'"
 			+ u_id2 + "\', \'"
 			+ trust + "\')";
-		
-		try {
-			int res = executeUpdate(sql);
-			return res;
-		} catch (Exception e) {
-			return -1;
-		}
+		return executeUpdate(sql);
 	}
 	
 	public static String getQueryWithOneResult(String sql) throws SQLException {
