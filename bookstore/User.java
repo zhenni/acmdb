@@ -22,7 +22,7 @@ public class User {
 	public int authority = 0;
 	
 	/**regislate a new user*/
-	public static int newUser(String login_name, String password, String name, String address, String phone_num) throws SQLException{
+	public static int newUser(String login_name, String password, String name, String address, String phone_num) {
 		String sql = "INSERT INTO user(login_name, password, name, address, phone_num) VALUES (\'"
 				+ login_name + "\', \'"
 				+ password + "\', \'"
@@ -30,8 +30,12 @@ public class User {
 				+ address + "\', \'"
 				+ phone_num + "\')"
 				;
-		int res = executeUpdate(sql);
-		return res;
+		try {
+			int res = executeUpdate(sql);
+			return res;
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 	
 	public static boolean exists(String login_name) throws Exception{

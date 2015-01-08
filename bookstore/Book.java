@@ -303,7 +303,7 @@ public class Book {
 	 * <p>Users can assess a feedback record, giving it a numerical score 0, 1, or 2
 	 * ('useless', 'useful', 'very useful' respectively).
 	 * A user should not be allowed to provide a usefulness-rating for his/her own feedbacks.</p>*/
-	public static int usefulnessRating(int u_id, String isbn, int u_id2, int score) throws SQLException{
+	public static int usefulnessRating(int u_id, String isbn, int u_id2, int score) {
 		if (u_id == u_id2){
 			System.out.println("You can not provide a usefulness-rating for your own feedbacks.");
 			return -1;
@@ -313,7 +313,13 @@ public class Book {
 			+ isbn + "\', \'"
 			+ u_id2 + "\', \'"
 			+ score + "\')";
-		return executeUpdate(sql);
+		
+		try {
+			int res = executeUpdate(sql);
+			return res;
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 
 	/**<strong>Two degrees of separation': </strong>
