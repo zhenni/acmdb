@@ -236,10 +236,15 @@ public class Book {
 	
 	/**<strong>Arrival of more copies:</strong>
 	 * <p>The store manager increases the appropriate counts.</p>*/
-	public static int addCopies(String isbn, int copy_num) throws SQLException{
-		String sql = "UPDATE book SET copy_num = copy_num +\'" + copy_num + "\'";
-		int res = executeUpdate(sql);
-		return res;
+	public static int addCopies(String isbn, int copy_num) {
+		String sql = "UPDATE book SET copy_num = copy_num +" + copy_num +
+					" WHERE isbn = \'" + isbn + "\'";
+		try {
+			int res = executeUpdate(sql);
+			return res;
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 	
 	/**<strong>Feedback recordings: </strong>
