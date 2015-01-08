@@ -11,7 +11,7 @@ public class Book {
 	}
 	
 	public static int newBook(String isbn, String title, int year, int copy_num, String price, String format, String subject,
-			String keywords, String publisher_id, HashSet<String> authors) throws SQLException{
+			String keywords, String publisher_id, HashSet<String> authors) {
 		int res;
 		String sql;
 		
@@ -26,15 +26,20 @@ public class Book {
 				+ keywords + "\', \'"
 				+ publisher_id + "\')"
 				;
-		res = executeUpdate(sql);
-		if(res == -1) return -1;
 		
-		for (Iterator<String> it = authors.iterator(); it.hasNext();){
-			sql = "INSERT writes(isbn, author_id) VALUES (\'"+isbn+"\', \'"+it.next()+"\')";
+		try {
 			res = executeUpdate(sql);
-			if (res == -1) return -1;
+			if(res == -1) return -1;
+			
+			for (Iterator<String> it = authors.iterator(); it.hasNext();){
+				sql = "INSERT writes(isbn, author_id) VALUES (\'"+isbn+"\', \'"+it.next()+"\')";
+				res = executeUpdate(sql);
+				if (res == -1) return -1;
+			}
+			return res;
+		} catch (Exception e) {
+			return -1;
 		}
-		return res;
 	}
 	
 	
