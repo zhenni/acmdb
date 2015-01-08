@@ -158,7 +158,6 @@ public class BookStore {
 			+ "ORDER BY S DESC";
 		
 		PrintResult.printQueryResult(sql, m);
-		System.err.println(displayStatisticsHTML(m, time1, time2));
 	}
 	
 	public static String displayStatisticsHTML(int m, java.sql.Timestamp time1, java.sql.Timestamp time2) throws SQLException {
