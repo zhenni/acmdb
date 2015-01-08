@@ -174,6 +174,44 @@ public class PrintResult {
 	 * @param sql the query
 	 * @param result type string; the result of the query
 	 * @return the number of rows of the query result*/
+	
+	public static int getQueryResultHTML(String sql, StringBuilder res) throws SQLException{
+		String result = "";
+		
+		System.err.println("DEBUG CHECK : "+ sql);
+		ResultSet rs = stmt.executeQuery(sql);
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int numCols = rsmd.getColumnCount();
+		
+		
+		
+		int row = 0;
+ 		while (rs.next()) {
+ 			if(row++ == 0){
+ 				result += "<table  class=\"bordered\" style=\"word-break:break-all; word-wrap:break-all;\" border=\"1\">\n";
+ 				result += "<tr>\n";
+ 				for (int i = 1; i <= numCols; ++i){
+ 					result += "<th>";
+ 					result += rsmd.getColumnName(i);
+ 					result += "</th>\n";
+ 				}
+ 				result += "</tr>\n";
+ 			}
+ 			result += "<tr>";
+ 			for (int i = 1; i <= numCols; ++i){
+ 				result += "<td>";
+ 				result += rs.getString(i);
+ 				result += "</td>\n";
+ 			}
+ 			result += "</tr>\n";
+ 		}
+		if (row == 0) System.out.println("Empty set.");
+		else result += "</table>\n";
+		res.append(result);
+		return row;
+	}
+	
+	/*
 	public static int getQueryResultHTML(String sql, StringBuilder res) throws SQLException{
 		String result = "";
 		
@@ -256,14 +294,51 @@ public class PrintResult {
 		res.append(result);
 		return row;
 	}
-	
+	*/
 	
 	/**get the result of the sql query result
 	 * @param sql the query
 	 * @param result type string; the result of the query
 	 * @param m the first m'th rows of the query
 	 * @return the number of rows of the query result*/
+	
 	public static int getQueryResultHTML(String sql, int m, StringBuilder res) throws SQLException{
+		String result = "";
+		
+		System.err.println("DEBUG CHECK : "+ sql);
+		ResultSet rs = stmt.executeQuery(sql);
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int numCols = rsmd.getColumnCount();
+		
+		
+		
+		int row = 0;
+		for (row = 0; row < m && rs.next(); ++row) {
+ 			if(row == 0){
+ 				result += "<table  class=\"bordered\" style=\"word-break:break-all; word-wrap:break-all;\" border=\"1\">\n";
+ 				result += "<tr>\n";
+ 				for (int i = 1; i <= numCols; ++i){
+ 					result += "<th>";
+ 					result += rsmd.getColumnName(i);
+ 					result += "</th>\n";
+ 				}
+ 				result += "</tr>\n";
+ 			}
+ 			result += "<tr>";
+ 			for (int i = 1; i <= numCols; ++i){
+ 				result += "<td>";
+ 				result += rs.getString(i);
+ 				result += "</td>\n";
+ 			}
+ 			result += "</tr>\n";
+ 		}
+		if (row == 0) System.out.println("Empty set.");
+		else result += "</table>\n";
+		res.append(result);
+		return row;
+	}
+	
+	/*public static int getQueryResultHTML(String sql, int m, StringBuilder res) throws SQLException{
 		String result="";
 		System.err.println("DEBUG CHECK : "+ sql);
 		ResultSet rs = stmt.executeQuery(sql);
@@ -349,6 +424,7 @@ public class PrintResult {
 		return row;
 	}
 	
+	*/
 	public static String fillWithChar(String str, int length, char c) {
         char[] chars = new char[length];
         for (int i = 0; i < length; i++) {
@@ -377,4 +453,6 @@ public class PrintResult {
         
         return new String(res);
     }
+    
+
 }
