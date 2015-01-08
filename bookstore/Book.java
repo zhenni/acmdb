@@ -273,22 +273,30 @@ public class Book {
 	}
 
 	/**<p>The user can only give one book one feedback once</p>*/
-	public static boolean haveGivenFeedback(String isbn, int u_id) throws Exception{
+	public static boolean haveGivenFeedback(String isbn, int u_id) {
 		String sql = "SELECT COUNT(*) FROM opinion WHERE isbn = \'"+isbn+"\' AND u_id = \'"+ u_id + "\'";
-		int num = Integer.parseInt(getQueryWithOneResult(sql));
-		if(num == 0) return false;
-		return true;
+		try {
+			int num = Integer.parseInt(getQueryWithOneResult(sql));
+			if(num == 0) return false;
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
-	public static int showFeedbacks(int u_id, String isbn) throws Exception{
+	public static int showFeedbacks(int u_id, String isbn) {
 		String sql = "SELECT U.login_name, O.score, O.short_text "
 				+ "FROM opinion O, user U "
 				+ "WHERE O.isbn = \'" + isbn + "\' AND "
 						+ "O.u_id = U.u_id AND "
 						+ "O.u_id <> \'"+u_id + "\'";
-		int row = PrintResult.printQueryResult(sql);
-		if (row == 0) return -1;
-		return 0;
+		try {
+			int row = PrintResult.printQueryResult(sql);
+			if (row == 0) return -1;
+			return 0;
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 	
 	/**<strong>Usefulness ratings:</strong> 
