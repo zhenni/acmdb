@@ -200,6 +200,7 @@ public class Book {
 		
 		try {
 			PrintResult.printQueryResult(sql, n);
+			displayUsefulFeedbackHTML(isbn, n);
 			res = 1;
 		} catch (Exception e) {
 			System.err.println(e);
@@ -225,7 +226,7 @@ public class Book {
 				+ "ORDER BY AVG(F.score) DESC";
 		
 		try {
-			res.append(PrintResult.getQueryResultHTML(sql, n, res));
+			PrintResult.getQueryResultHTML(sql, n, res);
 		} catch (Exception e) {
 			System.err.println(e);
 			res.append("<p>something wrong.</p>");
