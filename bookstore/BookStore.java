@@ -159,6 +159,47 @@ public class BookStore {
 		
 		PrintResult.printQueryResult(sql, m);
 	}
+	
+	public static String displayStatisticsHTML(int m, java.sql.Timestamp time1, java.sql.Timestamp time2) throws SQLException {
+		// the list of the m most popular books(in terms of copies sold in this semester)
+		StringBuilder res = new StringBuilder();
+		res.append("<p>The list of the " + m + " most popular books:</p>");
+		
+		String sql = "SELECT isbn, SUM(copy_num) AS S "
+					+"FROM orders O "
+					+"WHERE O.time >= \'" + time1 +"\' AND O.time <= \'" + time2 + "\' "
+					+"GROUP BY isbn "
+					+"ORDER BY S DESC";
+		
+		PrintResult.getQueryResultHTML(sql, m, res);
+		
+		// the list of m most popular authors
+		res.append("<p>The list of " + m + " most popular authors:</p>");
+		
+		sql = "SELECT W.author_id, SUM(O.copy_num) AS S "
+			+ "FROM orders O, writes W "
+			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
+			+ "		O.isbn = W.isbn "
+			+ "GROUP BY W.author_id "
+			+ "ORDER BY S DESC";
+		
+		PrintResult.getQueryResultHTML(sql, m, res);
+		
+		// the list of m most popular publishers
+		res.append("The list of " + m + " most popular publishers:");
+		
+		sql = "SELECT B.publisher_id, SUM(O.copy_num) AS S "
+			+ "FROM orders O, book B "
+			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
+			+ "		O.isbn = B.isbn "
+			+ "GROUP BY B.publisher_id "
+			+ "ORDER BY S DESC";
+		
+		PrintResult.getQueryResultHTML(sql, m, res);
+		
+		return res.toString();
+	}
+	
 
 	public static void displayAwardedUsers(int m) throws SQLException {
 		// the top m most 'trusted' users(the trust score of a user is the count of 
@@ -184,6 +225,37 @@ public class BookStore {
 			+ "ORDER BY AVG(F.score) DESC";
 		
 		PrintResult.printQueryResult(sql, m);
+		
+		System.err.println("PHASE 2 DEBUG: "+displayAwardedUsersHTML(m));
+	}
+	
+	public static String displayAwardedUsersHTML(int m) throws SQLException {
+		// the top m most 'trusted' users(the trust score of a user is the count of 
+		// users 'trusting' him/her, minus the count of users 'not-trusting' him/her)
+		StringBuilder res = new StringBuilder("");
+		
+		res.append( "<p>The top " + m + " most 'trusted' users:</p>\n");
+		
+		String sql = "SELECT U.login_name, SUM(UT.is_trust * 2 - 1) AS S "
+				+ "FROM user U, user_trust UT "
+				+ "WHERE U.u_id = UT.u_id2 "
+				+ "GROUP BY U.login_name "
+				+ "ORDER BY S DESC";
+		
+		PrintResult.getQueryResultHTML(sql, m, res);
+		
+		// the top m most 'useful' users(the userfulness score of a user is the average
+		// 'usefulness' of all of his/her feedbacks combined)
+		res.append("<p>The top " + m + " most 'useful' users: </p>\n");
+		
+		sql = "SELECT U.login_name, AVG(F.score) "
+			+ "FROM user U, opinion O, feedback F "
+			+ "WHERE O.isbn = F.isbn AND O.u_id = F.u_id2 AND U.u_id = O.u_id "
+			+ "GROUP BY U.login_name "
+			+ "ORDER BY AVG(F.score) DESC";
+		
+		PrintResult.getQueryResultHTML(sql, m, res);
+		return res.toString();
 	}
 	
 	/*
