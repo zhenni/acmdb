@@ -241,6 +241,7 @@ public class Book {
 					" WHERE isbn = \'" + isbn + "\'";
 		try {
 			int res = executeUpdate(sql);
+			if (res == 0) return -1;
 			return res;
 		} catch (Exception e) {
 			return -1;
