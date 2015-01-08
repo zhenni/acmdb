@@ -563,6 +563,10 @@ public class UserInterface {
 				while ((name = in.readLine()) == null);
 				
 				u2_id = User.getUserId(name);
+				if (u2_id == -1) {
+					System.out.println("The user id you entered is not exists.");
+					break;
+				}
 				
 				while (true) {
 					System.out.println("Do you want to trust or untrust this user? (t/u)");
