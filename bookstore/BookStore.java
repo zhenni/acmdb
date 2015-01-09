@@ -127,7 +127,7 @@ public class BookStore {
 		// the list of the m most popular books(in terms of copies sold in this semester)
 		System.out.println("The list of the " + m + " most popular books:");
 		
-		String sql = "SELECT isbn, SUM(copy_num) AS S "
+		String sql = "SELECT isbn, SUM(copy_num) AS SUM "
 					+"FROM orders O "
 					+"WHERE O.time >= \'" + time1 +"\' AND O.time <= \'" + time2 + "\' "
 					+"GROUP BY isbn "
@@ -138,7 +138,7 @@ public class BookStore {
 		// the list of m most popular authors
 		System.out.println("The list of " + m + " most popular authors:");
 		
-		sql = "SELECT W.author_id, SUM(O.copy_num) AS S "
+		sql = "SELECT W.author_id, SUM(O.copy_num) AS SUM "
 			+ "FROM orders O, writes W "
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
 			+ "		O.isbn = W.isbn "
@@ -150,7 +150,7 @@ public class BookStore {
 		// the list of m most popular publishers
 		System.out.println("The list of " + m + " most popular publishers:");
 		
-		sql = "SELECT B.publisher_id, SUM(O.copy_num) AS S "
+		sql = "SELECT B.publisher_id, SUM(O.copy_num) AS SUM "
 			+ "FROM orders O, book B "
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
 			+ "		O.isbn = B.isbn "
@@ -165,7 +165,7 @@ public class BookStore {
 		StringBuilder res = new StringBuilder();
 		res.append("<p>The list of the " + m + " most popular books:</p>");
 		
-		String sql = "SELECT isbn, SUM(copy_num) AS S "
+		String sql = "SELECT isbn, SUM(copy_num) AS SUM "
 					+"FROM orders O "
 					+"WHERE O.time >= \'" + time1 +"\' AND O.time <= \'" + time2 + "\' "
 					+"GROUP BY isbn "
@@ -176,7 +176,7 @@ public class BookStore {
 		// the list of m most popular authors
 		res.append("<p>The list of " + m + " most popular authors:</p>");
 		
-		sql = "SELECT W.author_id, SUM(O.copy_num) AS S "
+		sql = "SELECT W.author_id, SUM(O.copy_num) AS SUM "
 			+ "FROM orders O, writes W "
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
 			+ "		O.isbn = W.isbn "
@@ -188,7 +188,7 @@ public class BookStore {
 		// the list of m most popular publishers
 		res.append("The list of " + m + " most popular publishers:");
 		
-		sql = "SELECT B.publisher_id, SUM(O.copy_num) AS S "
+		sql = "SELECT B.publisher_id, SUM(O.copy_num) AS SUM "
 			+ "FROM orders O, book B "
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
 			+ "		O.isbn = B.isbn "
@@ -206,7 +206,7 @@ public class BookStore {
 		// users 'trusting' him/her, minus the count of users 'not-trusting' him/her)
 		System.out.println("The top " + m + " most 'trusted' users:");
 		
-		String sql = "SELECT U.login_name, SUM(UT.is_trust * 2 - 1) AS S "
+		String sql = "SELECT U.login_name, SUM(UT.is_trust * 2 - 1) AS SUM "
 				+ "FROM user U, user_trust UT "
 				+ "WHERE U.u_id = UT.u_id2 "
 				+ "GROUP BY U.login_name "
@@ -218,7 +218,7 @@ public class BookStore {
 		// 'usefulness' of all of his/her feedbacks combined)
 		System.out.println("The top " + m + " most 'useful' users:");
 		
-		sql = "SELECT U.login_name, AVG(F.score) "
+		sql = "SELECT U.login_name, AVG(F.score) AS AVG "
 			+ "FROM user U, opinion O, feedback F "
 			+ "WHERE O.isbn = F.isbn AND O.u_id = F.u_id2 AND U.u_id = O.u_id "
 			+ "GROUP BY U.login_name "
@@ -236,7 +236,7 @@ public class BookStore {
 		
 		res.append( "<p>The top " + m + " most 'trusted' users:</p>\n");
 		
-		String sql = "SELECT U.login_name, SUM(UT.is_trust * 2 - 1) AS S "
+		String sql = "SELECT U.login_name, SUM(UT.is_trust * 2 - 1) AS SUM "
 				+ "FROM user U, user_trust UT "
 				+ "WHERE U.u_id = UT.u_id2 "
 				+ "GROUP BY U.login_name "
@@ -248,7 +248,7 @@ public class BookStore {
 		// 'usefulness' of all of his/her feedbacks combined)
 		res.append("<p>The top " + m + " most 'useful' users: </p>\n");
 		
-		sql = "SELECT U.login_name, AVG(F.score) "
+		sql = "SELECT U.login_name, AVG(F.score) AS AVG "
 			+ "FROM user U, opinion O, feedback F "
 			+ "WHERE O.isbn = F.isbn AND O.u_id = F.u_id2 AND U.u_id = O.u_id "
 			+ "GROUP BY U.login_name "
