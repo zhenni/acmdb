@@ -186,7 +186,7 @@ public class BookStore {
 		PrintResult.getQueryResultHTML(sql, m, res);
 		
 		// the list of m most popular publishers
-		res.append("The list of " + m + " most popular publishers:");
+		res.append("<p>The list of " + m + " most popular publishers:</p>");
 		
 		sql = "SELECT B.publisher_id, SUM(O.copy_num) AS SUM "
 			+ "FROM orders O, book B "
