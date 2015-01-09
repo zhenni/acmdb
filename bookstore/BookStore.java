@@ -131,7 +131,7 @@ public class BookStore {
 					+"FROM orders O "
 					+"WHERE O.time >= \'" + time1 +"\' AND O.time <= \'" + time2 + "\' "
 					+"GROUP BY isbn "
-					+"ORDER BY S DESC";
+					+"ORDER BY SUM DESC";
 		
 		PrintResult.printQueryResult(sql, m);
 		
@@ -143,7 +143,7 @@ public class BookStore {
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
 			+ "		O.isbn = W.isbn "
 			+ "GROUP BY W.author_id "
-			+ "ORDER BY S DESC";
+			+ "ORDER BY SUM DESC";
 		
 		PrintResult.printQueryResult(sql, m);
 		
@@ -155,7 +155,7 @@ public class BookStore {
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
 			+ "		O.isbn = B.isbn "
 			+ "GROUP BY B.publisher_id "
-			+ "ORDER BY S DESC";
+			+ "ORDER BY SUM DESC";
 		
 		PrintResult.printQueryResult(sql, m);
 	}
@@ -169,7 +169,7 @@ public class BookStore {
 					+"FROM orders O "
 					+"WHERE O.time >= \'" + time1 +"\' AND O.time <= \'" + time2 + "\' "
 					+"GROUP BY isbn "
-					+"ORDER BY S DESC";
+					+"ORDER BY SUM DESC";
 		
 		PrintResult.getQueryResultHTML(sql, m, res);
 		
@@ -181,7 +181,7 @@ public class BookStore {
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
 			+ "		O.isbn = W.isbn "
 			+ "GROUP BY W.author_id "
-			+ "ORDER BY S DESC";
+			+ "ORDER BY SUM DESC";
 		
 		PrintResult.getQueryResultHTML(sql, m, res);
 		
@@ -193,7 +193,7 @@ public class BookStore {
 			+ "WHERE O.time >= \'" + time1 + "\' AND O.time <= \'" + time2 + "\' AND "
 			+ "		O.isbn = B.isbn "
 			+ "GROUP BY B.publisher_id "
-			+ "ORDER BY S DESC";
+			+ "ORDER BY SUM DESC";
 		
 		PrintResult.getQueryResultHTML(sql, m, res);
 		
@@ -210,7 +210,7 @@ public class BookStore {
 				+ "FROM user U, user_trust UT "
 				+ "WHERE U.u_id = UT.u_id2 "
 				+ "GROUP BY U.login_name "
-				+ "ORDER BY S DESC";
+				+ "ORDER BY SUM DESC";
 		
 		PrintResult.printQueryResult(sql, m);
 		
@@ -222,7 +222,7 @@ public class BookStore {
 			+ "FROM user U, opinion O, feedback F "
 			+ "WHERE O.isbn = F.isbn AND O.u_id = F.u_id2 AND U.u_id = O.u_id "
 			+ "GROUP BY U.login_name "
-			+ "ORDER BY AVG(F.score) DESC";
+			+ "ORDER BY AVG DESC";
 		
 		PrintResult.printQueryResult(sql, m);
 		
@@ -240,7 +240,7 @@ public class BookStore {
 				+ "FROM user U, user_trust UT "
 				+ "WHERE U.u_id = UT.u_id2 "
 				+ "GROUP BY U.login_name "
-				+ "ORDER BY S DESC";
+				+ "ORDER BY SUM DESC";
 		
 		PrintResult.getQueryResultHTML(sql, m, res);
 		
@@ -252,7 +252,7 @@ public class BookStore {
 			+ "FROM user U, opinion O, feedback F "
 			+ "WHERE O.isbn = F.isbn AND O.u_id = F.u_id2 AND U.u_id = O.u_id "
 			+ "GROUP BY U.login_name "
-			+ "ORDER BY AVG(F.score) DESC";
+			+ "ORDER BY AVG DESC";
 		
 		PrintResult.getQueryResultHTML(sql, m, res);
 		return res.toString();
